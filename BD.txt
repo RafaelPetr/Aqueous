@@ -30,3 +30,7 @@ CREATE TABLE Compras (
 	FOREIGN KEY (cpf_cliente) REFERENCES Clientes(cpf),
 	FOREIGN KEY (id_jogo) REFERENCES Jogos(id)
 );
+
+CREATE USER 'aqueous'@'localhost' IDENTIFIED BY '123456'; 
+GRANT ALL PRIVILEGES ON * . * TO 'aqueous'@'localhost';
+FLUSH PRIVILEGES;
