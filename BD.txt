@@ -1,0 +1,32 @@
+CREATE DATABASE Biblioteca_Jogos;
+
+USE Biblioteca_Jogos;
+
+CREATE TABLE Clientes (
+	cpf VARCHAR(11) NOT NULL,
+	senha VARCHAR(8) NOT NULL,
+	nome VARCHAR(40) NOT NULL,
+	data_nascimento DATE NOT NULL,
+	nacionalidade VARCHAR(20) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	telefone VARCHAR(14) NOT NULL,
+	PRIMARY KEY (cpf)
+);
+
+CREATE TABLE Jogos (
+	id INT NOT NULL AUTO_INCREMENT,
+	titulo VARCHAR(50) NOT NULL,
+	genero VARCHAR(20) NOT NULL,
+	desenvolvedor VARCHAR(50) NOT NULL,
+	data_publicacao DATE NOT NULL,
+	preco DECIMAL(15,2) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE Compras (
+	cpf_cliente VARCHAR(11) NOT NULL,
+	id_jogo INT NOT NULL,
+	PRIMARY KEY (cpf_cliente,id_jogo),
+	FOREIGN KEY (cpf_cliente) REFERENCES Clientes(cpf),
+	FOREIGN KEY (id_jogo) REFERENCES Jogos(id)
+);
