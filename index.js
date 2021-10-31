@@ -14,7 +14,7 @@ var con = mysql.createConnection({
     host: "localhost",
     user: "aqueous",
     password: "123456",
-    database: "Biblioteca_Jogos"
+    database: "Aqueous"
 })
 
 con.connect((err) => {
@@ -30,19 +30,43 @@ app.get("/", (req,res) => {
     res.sendFile(__dirname + "/views/home.html");
 });
 
-app.get("/gamesForm", (req,res) => {
-    res.sendFile(__dirname + "/views/gamesForm.html");
+app.get("/games", (req,res) => {
+    let game = new gamesDAO();
+
+    game.List(con, (result) => {
+        res.render("lists/gamesList.ejs", {games: result});
+    })
 });
 
-app.get("/clientsForm", (req,res) => {
-    res.sendFile(__dirname + "/views/clientsForm.html");
+app.get("/clients", (req,res) => {
+    let client = new clientsDAO();
+
+    client.List(con, (result) => {
+        res.render("lists/clientsList.ejs", {clients: result});
+    })
 });
 
-app.get("/purchasesForm", (req,res) => {
-    res.sendFile(__dirname + "/views/purchasesForm.html");
+app.get("/purchases", (req,res) => {
+    let purchase = new purchasesDAO();
+
+    purchase.List(con, (result) => {
+        res.render("lists/purchasesList.ejs", {purchases: result});
+    })
 });
 
-app.post("/saveGame", (req,res) => {
+app.get("/games/insert", (req,res) => {
+    res.sendFile(__dirname + "/views/forms/gamesForm.html");
+});
+
+app.get("/clients/insert", (req,res) => {
+    res.sendFile(__dirname + "/views/forms/clientsForm.html");
+});
+
+app.get("/purchases/insert", (req,res) => {
+    res.sendFile(__dirname + "/views/forms/purchasesForm.html");
+});
+
+app.post("/games/insert", (req,res) => {
     let game = new gamesDAO();
     game.setTitle(req.body.title);
     game.setGenre(req.body.genre);
@@ -54,7 +78,7 @@ app.post("/saveGame", (req,res) => {
     res.sendFile(__dirname + "/views/result.html");
 });
 
-app.post("/saveClient", (req,res) => {
+app.post("/clients/insert", (req,res) => {
     let client = new clientsDAO();
     client.setCPF(req.body.cpf);
     client.setPassword(req.body.password);
@@ -68,7 +92,7 @@ app.post("/saveClient", (req,res) => {
     res.sendFile(__dirname + "/views/result.html");
 });
 
-app.post("/savePurchase", (req,res) => {
+app.post("/purchases/insert", (req,res) => {
     let purchase = new purchasesDAO();
     purchase.setClient(req.body.client);
     purchase.setGame(req.body.game);

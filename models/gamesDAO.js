@@ -53,5 +53,14 @@ module.exports = class gamesDAO {
         connection.query(sql, [this.title,this.genre,this.developer,this.publication,this.price], (err,result) =>{
             if (err) throw err;
         })
-    } 
+    }
+
+    List = (connection, callback) => {
+        let sql = "SELECT * FROM Jogos";
+
+        connection.query(sql, (err,result) => {
+            if (err) throw err;
+            return callback(result);
+        })
+    }
 }

@@ -27,4 +27,13 @@ module.exports = class purchasesDAO {
             if (err) throw err;
         })
     }
+
+    List = (connection, callback) => {
+        let sql = "SELECT * FROM Compras";
+
+        connection.query(sql, (err,result) => {
+            if (err) throw err;
+            return callback(result);
+        })
+    }
 }

@@ -1,6 +1,6 @@
-CREATE DATABASE Biblioteca_Jogos;
+CREATE DATABASE Aqueous;
 
-USE Biblioteca_Jogos;
+USE Aqueous;
 
 CREATE TABLE Clientes (
 	cpf VARCHAR(11) NOT NULL,

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Jogos</title>
+</head>
+<body>
+    <h1>Lista de Jogos</h1>
+    <a href="./insert/">Inserir Jogo</a><br>
+    <a href="../">Voltar para Home</a>
+    <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
+        <tr>
+            <th>Id</th>
+            <th>Título</th>
+            <th>Gênero</th>
+            <th>Desenvolvedor</th>
+            <th>Data de Publicação</th>
+            <th>Preço</th>
+        </tr>
+
+        <% games.forEach((game) => { %>
+            <tr>
+                <td><%= game.id %></td>
+                <td><%= game.titulo %></td>
+                <td><%= game.genero %></td>
+                <td><%= game.desenvolvedor %></td>
+                <td><%= game.data_publicacao %></td>
+                <td><%= game.preco %></td>
+            </tr>
+        <% }) %>
+    </table>	
+</body>
+</html>

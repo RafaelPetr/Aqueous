@@ -71,5 +71,14 @@ module.exports = class clientsDAO {
         connection.query(sql, [this.cpf,this.password,this.name,this.birthDate,this.nationality,this.email,this.phone], (err,result) =>{
             if (err) throw err;
         })
-    } 
+    }
+
+    List = (connection, callback) => {
+        let sql = "SELECT * FROM Clientes";
+
+        connection.query(sql, (err,result) =>{
+            if (err) throw err;
+            return callback(result);
+        })
+    }
 }
