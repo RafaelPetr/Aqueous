@@ -30,7 +30,7 @@ app.get("/", (req,res) => {
     res.sendFile(__dirname + "/views/home.html");
 });
 
-app.get("/games", (req,res) => {
+app.get("/games/", (req,res) => {
     let game = new gamesDAO();
 
     game.List(con, (result) => {
@@ -38,7 +38,7 @@ app.get("/games", (req,res) => {
     })
 });
 
-app.get("/clients", (req,res) => {
+app.get("/clients/", (req,res) => {
     let client = new clientsDAO();
 
     client.List(con, (result) => {
@@ -46,7 +46,7 @@ app.get("/clients", (req,res) => {
     })
 });
 
-app.get("/purchases", (req,res) => {
+app.get("/purchases/", (req,res) => {
     let purchase = new purchasesDAO();
 
     purchase.List(con, (result) => {
@@ -54,19 +54,19 @@ app.get("/purchases", (req,res) => {
     })
 });
 
-app.get("/games/insert", (req,res) => {
+app.get("/games/insert/", (req,res) => {
     res.sendFile(__dirname + "/views/forms/gamesForm.html");
 });
 
-app.get("/clients/insert", (req,res) => {
+app.get("/clients/insert/", (req,res) => {
     res.sendFile(__dirname + "/views/forms/clientsForm.html");
 });
 
-app.get("/purchases/insert", (req,res) => {
+app.get("/purchases/insert/", (req,res) => {
     res.sendFile(__dirname + "/views/forms/purchasesForm.html");
 });
 
-app.post("/games/insert", (req,res) => {
+app.post("/games/insert/", (req,res) => {
     let game = new gamesDAO();
     game.setTitle(req.body.title);
     game.setGenre(req.body.genre);
@@ -78,7 +78,7 @@ app.post("/games/insert", (req,res) => {
     res.sendFile(__dirname + "/views/result.html");
 });
 
-app.post("/clients/insert", (req,res) => {
+app.post("/clients/insert/", (req,res) => {
     let client = new clientsDAO();
     client.setCPF(req.body.cpf);
     client.setPassword(req.body.password);
@@ -92,11 +92,36 @@ app.post("/clients/insert", (req,res) => {
     res.sendFile(__dirname + "/views/result.html");
 });
 
-app.post("/purchases/insert", (req,res) => {
+app.post("/purchases/insert/", (req,res) => {
     let purchase = new purchasesDAO();
     purchase.setClient(req.body.client);
     purchase.setGame(req.body.game);
 
     purchase.Insert(con);
+    res.sendFile(__dirname + "/views/result.html");
+});
+
+app.get("/games/excluir/", (req,res) => {
+    let game = new gamesDAO();
+    game.setId(req.query.id);
+
+    game.Delete(con);
+    res.sendFile(__dirname + "/views/result.html");
+});
+
+app.get("/clients/excluir/", (req,res) => {
+    let client = new clientsDAO();
+    client.setCPF(req.query.cpf);
+
+    client.Delete(con);
+    res.sendFile(__dirname + "/views/result.html");
+});
+
+app.get("/purchases/excluir/", (req,res) => {
+    let purchase = new purchasesDAO();
+    purchase.setClient(req.query.cpf_client);
+    purchase.setGame(req.query.id_game);
+
+    purchase.Delete(con);
     res.sendFile(__dirname + "/views/result.html");
 });

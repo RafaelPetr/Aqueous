@@ -20,6 +20,15 @@ module.exports = class purchasesDAO {
         return this.game;
     }
 
+    List = (connection, callback) => {
+        let sql = "SELECT * FROM Compras";
+
+        connection.query(sql, (err,result) => {
+            if (err) throw err;
+            return callback(result);
+        })
+    }
+
     Insert = (connection) => {
         let sql = "INSERT INTO Compras (cpf_cliente, id_jogo) VALUES (?,?)";
         
@@ -28,12 +37,11 @@ module.exports = class purchasesDAO {
         })
     }
 
-    List = (connection, callback) => {
-        let sql = "SELECT * FROM Compras";
+    Delete = (connection) => {  
+        let sql = "DELETE FROM Compras WHERE cpf_cliente = ? AND id_jogo = ?";
 
-        connection.query(sql, (err,result) => {
+        connection.query(sql, [this.game,this.client], (err,result) =>{
             if (err) throw err;
-            return callback(result);
         })
     }
 }

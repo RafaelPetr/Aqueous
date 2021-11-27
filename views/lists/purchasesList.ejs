@@ -12,12 +12,14 @@
     <a href="../">Voltar para Home</a>
     <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
         <tr>
+            <th>Ação</th>
             <th>CPF do Comprador</th>
             <th>ID do Jogo</th>
         </tr>
 
         <% purchases.forEach((purchase) => { %>
             <tr>
+                <td><a href="./excluir/?cpf_client=<%= purchase.cpf_cliente %>&id_game=<%= purchase.id_jogo %>">Excluir</a></td>
                 <td><%= purchase.cpf_cliente %></td>
                 <td><%= purchase.id_jogo %></td>
             </tr>

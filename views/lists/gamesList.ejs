@@ -12,6 +12,7 @@
     <a href="../">Voltar para Home</a>
     <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
         <tr>
+            <th>Ação</th>
             <th>Id</th>
             <th>Título</th>
             <th>Gênero</th>
@@ -22,6 +23,7 @@
 
         <% games.forEach((game) => { %>
             <tr>
+                <td><a href="./excluir/?id=<%= game.id %>">Excluir</a></td>
                 <td><%= game.id %></td>
                 <td><%= game.titulo %></td>
                 <td><%= game.genero %></td>

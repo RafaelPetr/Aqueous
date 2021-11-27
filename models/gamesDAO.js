@@ -1,10 +1,19 @@
 module.exports = class gamesDAO {
     constructor() {
+        this.id = 0;
         this.title = "";
         this.genre = "";
         this.developer = "";
         this.publication = new Date();
         this.price = 0;
+    }
+
+    setId = (id) => {
+        this.id = id;
+    }
+
+    getId = () => {
+        return this.id;
     }
 
     setTitle = (title) => {
@@ -47,6 +56,15 @@ module.exports = class gamesDAO {
         return this.price;
     }
 
+    List = (connection, callback) => {
+        let sql = "SELECT * FROM Jogos";
+
+        connection.query(sql, (err,result) => {
+            if (err) throw err;
+            return callback(result);
+        })
+    }
+
     Insert = (connection) => {
         let sql = "INSERT INTO Jogos (titulo, genero, desenvolvedor, data_publicacao, preco) VALUES (?,?,?,?,?)";
 
@@ -55,12 +73,11 @@ module.exports = class gamesDAO {
         })
     }
 
-    List = (connection, callback) => {
-        let sql = "SELECT * FROM Jogos";
+    Delete = (connection) => {  
+        let sql = "DELETE FROM Jogos WHERE id = ?";
 
-        connection.query(sql, (err,result) => {
+        connection.query(sql, [this.id], (err,result) =>{
             if (err) throw err;
-            return callback(result);
         })
     }
 }

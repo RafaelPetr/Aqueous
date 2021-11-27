@@ -27,8 +27,8 @@ CREATE TABLE Compras (
 	cpf_cliente VARCHAR(11) NOT NULL,
 	id_jogo INT NOT NULL,
 	PRIMARY KEY (cpf_cliente,id_jogo),
-	FOREIGN KEY (cpf_cliente) REFERENCES Clientes(cpf),
-	FOREIGN KEY (id_jogo) REFERENCES Jogos(id)
+	FOREIGN KEY (cpf_cliente) REFERENCES Clientes(cpf) ON DELETE CASCADE,
+	FOREIGN KEY (id_jogo) REFERENCES Jogos(id) ON DELETE CASCADE
 );
 
 CREATE USER 'aqueous'@'localhost' IDENTIFIED BY '123456'; 

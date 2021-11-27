@@ -65,6 +65,15 @@ module.exports = class clientsDAO {
         return this.phone;
     }
 
+    List = (connection, callback) => {
+        let sql = "SELECT * FROM Clientes";
+
+        connection.query(sql, (err,result) =>{
+            if (err) throw err;
+            return callback(result);
+        })
+    }
+
     Insert = (connection) => {
         let sql = "INSERT INTO Clientes (cpf, senha, nome, data_nascimento, nacionalidade, email, telefone) VALUES (?,?,?,?,?,?,?)";
 
@@ -73,12 +82,11 @@ module.exports = class clientsDAO {
         })
     }
 
-    List = (connection, callback) => {
-        let sql = "SELECT * FROM Clientes";
+    Delete = (connection) => {  
+        let sql = "DELETE FROM Clientes WHERE cpf = ?";
 
-        connection.query(sql, (err,result) =>{
+        connection.query(sql, [this.cpf], (err,result) =>{
             if (err) throw err;
-            return callback(result);
         })
     }
 }
