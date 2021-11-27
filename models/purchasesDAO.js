@@ -37,10 +37,10 @@ module.exports = class purchasesDAO {
         })
     }
 
-    Delete = (connection) => {  
+    Delete = (connection) => {
         let sql = "DELETE FROM Compras WHERE cpf_cliente = ? AND id_jogo = ?";
 
-        connection.query(sql, [this.game,this.client], (err,result) =>{
+        connection.query(sql, [this.client,this.game], (err,result) =>{
             if (err) throw err;
         })
     }

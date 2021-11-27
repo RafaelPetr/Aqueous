@@ -82,7 +82,7 @@ module.exports = class clientsDAO {
         })
     }
 
-    Delete = (connection) => {  
+    Delete = (connection) => {
         let sql = "DELETE FROM Clientes WHERE cpf = ?";
 
         connection.query(sql, [this.cpf], (err,result) =>{

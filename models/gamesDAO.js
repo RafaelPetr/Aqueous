@@ -73,7 +73,7 @@ module.exports = class gamesDAO {
         })
     }
 
-    Delete = (connection) => {  
+    Delete = (connection) => {
         let sql = "DELETE FROM Jogos WHERE id = ?";
 
         connection.query(sql, [this.id], (err,result) =>{
