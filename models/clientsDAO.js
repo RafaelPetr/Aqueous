@@ -89,4 +89,21 @@ module.exports = class clientsDAO {
             if (err) throw err;
         })
     }
+
+    buscarPorId = (connection, callback) => {
+        let sql = "SELECT *, DATE_FORMAT(data_nascimento,'%Y-%m-%d') as data_nascimento FROM Clientes WHERE cpf = ?";
+
+        connection.query(sql, [this.cpf], (err,result) =>{
+            if (err) throw err;
+                return callback(result);
+        })
+    }
+
+    Update = (connection) => {
+        let sql = "UPDATE Clientes SET senha = ?, nome = ?, data_nascimento = ?, nacionalidade = ?, email = ?, telefone = ? WHERE cpf = ?";
+
+        connection.query(sql, [this.password, this.name, this.birthDate, this.nationality, this.email, this.phone, this.cpf], (err,result) =>{
+            if (err) throw err;
+        })
+    }
 }

@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Lista de Jogos</h1>
-    <a href="./insert/">Inserir Jogo</a><br>
+    <a href="./inserir/">Inserir Jogo</a><br>
     <a href="../">Voltar para Home</a>
     <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
         <tr>
@@ -23,7 +23,10 @@
 
         <% games.forEach((game) => { %>
             <tr>
-                <td><a href="./excluir/?id=<%= game.id %>">Excluir</a></td>
+                <td>
+                    <a href="./atualizar/?id=<%= game.id %>">Atualizar</a>
+                    <a href="./excluir/?id=<%= game.id %>">Excluir</a>
+                </td>
                 <td><%= game.id %></td>
                 <td><%= game.titulo %></td>
                 <td><%= game.genero %></td>

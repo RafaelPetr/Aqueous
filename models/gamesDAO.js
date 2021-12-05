@@ -80,4 +80,21 @@ module.exports = class gamesDAO {
             if (err) throw err;
         })
     }
+
+    buscarPorId = (connection, callback) => {
+        let sql = "SELECT *, DATE_FORMAT(data_publicacao, '%Y-%m-%d') as data_publicacao FROM Jogos WHERE id = ?";
+
+        connection.query(sql, [this.id], (err,result) =>{
+            if (err) throw err;
+                return callback(result);
+        })
+    }
+
+    Update = (connection) => {
+        let sql = "UPDATE Jogos SET titulo = ?, genero = ?, desenvolvedor = ?, data_publicacao = ?, preco = ? WHERE id = ?";
+
+        connection.query(sql, [this.title, this.genre, this.developer, this.publication, this.price, this.id], (err,result) =>{
+            if (err) throw err;
+        })
+    }
 }

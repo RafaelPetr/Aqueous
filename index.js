@@ -54,19 +54,19 @@ app.get("/purchases/", (req,res) => {
     })
 });
 
-app.get("/games/insert/", (req,res) => {
+app.get("/games/inserir/", (req,res) => {
     res.sendFile(__dirname + "/views/forms/gamesForm.html");
 });
 
-app.get("/clients/insert/", (req,res) => {
+app.get("/clients/inserir/", (req,res) => {
     res.sendFile(__dirname + "/views/forms/clientsForm.html");
 });
 
-app.get("/purchases/insert/", (req,res) => {
+app.get("/purchases/inserir/", (req,res) => {
     res.sendFile(__dirname + "/views/forms/purchasesForm.html");
 });
 
-app.post("/games/insert/", (req,res) => {
+app.post("/games/inserir/", (req,res) => {
     let game = new gamesDAO();
     game.setTitle(req.body.title);
     game.setGenre(req.body.genre);
@@ -74,11 +74,11 @@ app.post("/games/insert/", (req,res) => {
     game.setPublication(req.body.publication);
     game.setPrice(req.body.price);
 
-    game.Insert(con);
+    let retorno = game.Insert(con);
     res.sendFile(__dirname + "/views/result.html");
 });
 
-app.post("/clients/insert/", (req,res) => {
+app.post("/clients/inserir/", (req,res) => {
     let client = new clientsDAO();
     client.setCPF(req.body.cpf);
     client.setPassword(req.body.password);
@@ -88,16 +88,16 @@ app.post("/clients/insert/", (req,res) => {
     client.setEmail(req.body.email);
     client.setPhone(req.body.phone);
 
-    client.Insert(con);
+    let retorno = client.Insert(con);
     res.sendFile(__dirname + "/views/result.html");
 });
 
-app.post("/purchases/insert/", (req,res) => {
+app.post("/purchases/inserir/", (req,res) => {
     let purchase = new purchasesDAO();
     purchase.setClient(req.body.client);
     purchase.setGame(req.body.game);
 
-    purchase.Insert(con);
+    let retorno = purchase.Insert(con);
     res.sendFile(__dirname + "/views/result.html");
 });
 
@@ -125,3 +125,74 @@ app.get("/purchases/excluir/", (req,res) => {
     purchase.Delete(con);
     res.sendFile(__dirname + "/views/result.html");
 });
+
+app.get("/games/atualizar/", (req,res) => {
+    let game = new gamesDAO();
+    game.setId(req.query.id);
+
+    game.buscarPorId(con, (result) => {
+        res.render("forms/gamesForm.ejs", {game:result});
+    })
+});
+
+app.get("/clients/atualizar/", (req,res) => {
+    let client = new clientsDAO();
+    client.setCPF(req.query.cpf);
+
+    client.buscarPorId(con, (result) => {
+        res.render("forms/clientsForm.ejs", {client:result});
+    })
+});
+
+app.post("/games/atualizar/", (req,res) => {
+    let game = new gamesDAO();
+    game.setTitle(req.body.title);
+    game.setGenre(req.body.genre);
+    game.setDeveloper(req.body.developer);
+    game.setPublication(req.body.publication);
+    game.setPrice(req.body.price);
+
+    if (req.body.acao == "Atualizar") {
+        game.setId(req.body.id);
+        let retorno = game.Update(con);
+        res.sendFile(__dirname + "/views/result.html");
+
+    }
+    else {
+        if (req.body.acao == "Cancelar") {
+            res.redirect("../");
+        }
+        else {
+            let retorno = game.Insert(con);
+            res.sendFile(__dirname + "/views/result.html");
+        }
+    }
+});
+
+app.post("/clients/atualizar/", (req,res) => {
+    let client = new clientsDAO();
+    client.setPassword(req.body.password);
+    client.setName(req.body.name);
+    client.setBirthDate(req.body.birthDate);
+    client.setNationality(req.body.nationality);
+    client.setEmail(req.body.email);
+    client.setPhone(req.body.phone);
+
+    if (req.body.acao == "Atualizar") {
+        client.setCPF(req.body.cpf);
+        let retorno = client.Update(con);
+        res.sendFile(__dirname + "/views/result.html");
+
+    }
+    else {
+        if (req.body.acao == "Cancelar") {
+            res.redirect("../");
+        }
+        else {
+            let retorno = client.Insert(con);
+            res.sendFile(__dirname + "/views/result.html");
+        }
+    }
+});
+
+//No sistema, não haverá a possibilidade de atualizar uma compra, somente realizar e cancelar a compra
