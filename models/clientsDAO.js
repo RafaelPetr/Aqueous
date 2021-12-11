@@ -76,7 +76,6 @@ module.exports = class clientsDAO {
 
     Insert = (connection) => {
         let sql = "INSERT INTO Clientes (cpf, senha, nome, data_nascimento, nacionalidade, email, telefone) VALUES (?,?,?,?,?,?,?)";
-
         connection.query(sql, [this.cpf,this.password,this.name,this.birthDate,this.nationality,this.email,this.phone], (err,result) =>{
             if (err) throw err;
         })
