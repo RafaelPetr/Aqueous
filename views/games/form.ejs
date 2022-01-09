@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Formulário de Jogos</h1>
-    <form action="../salvar/" method="post">
+    <form action="../save/" method="post">
 
         <input type="hidden" name="id" id="id" value="<%= (game.length > 0 ? game[0].id:'') %>"><br>
 
@@ -26,8 +26,8 @@
         <label for="price">Preço:</label>
         <input type="float" name="price" id="price" value="<%= (game.length > 0 ? game[0].preco:'') %>"><br>
 
-        <input type="submit" name="acao" value="Atualizar">
-        <input type="submit" name="acao" value="Cancelar">
+        <input type="submit" name="action" value="Salvar">
+        <input type="submit" name="action" value="Cancelar">
     </form>
 </body>
 </html>

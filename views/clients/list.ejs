@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Lista de Clientes</h1>
-    <a href="./inserir/">Inserir Cliente</a><br>
+    <a href="./form/?cpf=-1">Inserir Cliente</a><br>
     <a href="../">Voltar para Home</a>
     <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
         <tr>
@@ -25,8 +25,8 @@
         <% clients.forEach((client) => { %>
             <tr>
                 <td>
-                    <a href="./atualizar/?cpf=<%= client.cpf %>">Atualizar</a>
-                    <a href="./excluir/?cpf=<%= client.cpf %>">Excluir</a>
+                    <a href="./form/?cpf=<%= client.cpf %>">Atualizar</a>
+                    <a href="./delete/?cpf=<%= client.cpf %>">Excluir</a>
                 </td>
                 <td><%= client.cpf %></td>
                 <td><%= client.senha %></td>

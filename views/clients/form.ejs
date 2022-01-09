@@ -8,8 +8,13 @@
 </head>
 <body>
     <h1>Formulário de Clientes</h1>
-    <form action="../salvar/" method="post">
-        <input type="hidden" name="cpf" id="cpf" value="<%= (client.length > 0 ? client[0].cpf:'') %>"><br>
+    <form action="../save/" method="post">
+        <% if (client.length <= 0) { %>
+            <label for="cpf">CPF</label>
+            <input type="text" name="cpf" id="cpf" value=""><br>
+        <% } else { %>
+            <input type="hidden" name="cpf" id="cpf" value="<%= (client.length > 0 ? client[0].cpf:'') %>"><br>
+        <% } %>
 
         <label for="password">Senha</label>
         <input type="password" name="password" id="password" value="<%= (client.length > 0 ? client[0].senha:'') %>"><br>
@@ -29,8 +34,12 @@
         <label for="phone">Telefone</label>
         <input type="text" name="phone" id="phone" value="<%= (client.length > 0 ? client[0].telefone:'') %>"><br>
 
-        <input type="submit" name="acao" value="Atualizar">
-        <input type="submit" name="acao" value="Cancelar">
+        <% if (client.length <= 0) { %>
+            <input type="submit" name="action" value="Inserir">
+        <% } else { %>
+            <input type="submit" name="action" value="Atualizar">
+        <% } %>
+        <input type="submit" name="action" value="Cancelar">
     </form>
 </body>
 </html>

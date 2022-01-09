@@ -1,0 +1,41 @@
+/*------ Estilo geral do header ------*/
+
+header {
+    background-color: #154C6E;
+}
+
+header ul {
+    list-style-type: none;
+}
+
+header ul li {
+    display: inline-block;
+}
+
+header ul a {
+    color: #71bfff;
+    text-decoration: none;
+}
+
+/*------ Estilo do Título "Aqueous" ------*/
+
+header ul a #title {
+    padding: 20px 4%;
+    background-color: #0f3852;
+}
+
+header ul a #title h1 {
+    color: white;
+}
+
+/*------ Estilo do das opções do usuário ------*/
+
+header ul #user {
+    float: right;
+    margin-top: 30px;
+    margin-right: 30px;
+}
+
+header ul #user select {
+    text-align: center;
+}

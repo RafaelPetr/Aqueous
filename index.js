@@ -1,3 +1,5 @@
+//---------Iniciando servidor---------
+
 const express = require("express");
 const app = express();
 
@@ -7,6 +9,10 @@ app.listen(3000, () => {
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended:true}));
+
+app.use(express.static(__dirname + "/public"));
+
+//---------Conectando servidor ao MySQL---------
 
 var mysql = require("mysql");
 
@@ -22,76 +28,38 @@ con.connect((err) => {
     console.log("Database Connected");
 })
 
-const purchasesDAO = require("./models/purchasesDAO");
-const gamesDAO = require("./models/gamesDAO");
+//---------Importando models das tabelas---------
+
 const clientsDAO = require("./models/clientsDAO");
+const gamesDAO = require("./models/gamesDAO");
+const purchasesDAO = require("./models/purchasesDAO");
+
+//---------Implementações da home page---------
 
 app.get("/", (req,res) => {
-    res.sendFile(__dirname + "/views/home.html");
+    res.render("index.ejs");
 });
 
-app.get("/games/", (req,res) => {
-    let game = new gamesDAO();
-
-    game.List(con, (result) => {
-        res.render("lists/gamesList.ejs", {games: result});
-    })
-});
+//---------Implementações do cadastro de clientes---------
 
 app.get("/clients/", (req,res) => {
     let client = new clientsDAO();
 
     client.List(con, (result) => {
-        res.render("lists/clientsList.ejs", {clients: result});
+        res.render("clients/list.ejs", {clients: result});
     })
 });
 
-app.get("/purchases/", (req,res) => {
-    let purchase = new purchasesDAO();
+app.get("/clients/form/", (req,res) => {
+    let client = new clientsDAO();
+    client.setCPF(req.query.cpf);
 
-    purchase.List(con, (result) => {
-        res.render("lists/purchasesList.ejs", {purchases: result});
+    client.buscarPorId(con, (result) => {
+        res.render("clients/form.ejs", {client:result});
     })
 });
 
-app.get("/games/inserir/", (req,res) => {
-    res.sendFile(__dirname + "/views/forms/gamesForm.html");
-});
-
-app.get("/clients/inserir/", (req,res) => {
-    res.sendFile(__dirname + "/views/forms/clientsForm.html");
-});
-
-app.get("/purchases/inserir/", (req,res) => {
-    res.sendFile(__dirname + "/views/forms/purchasesForm.html");
-});
-
-app.post("/games/salvar/", (req,res) => {
-    let game = new gamesDAO();
-    game.setTitle(req.body.title);
-    game.setGenre(req.body.genre);
-    game.setDeveloper(req.body.developer);
-    game.setPublication(req.body.publication);
-    game.setPrice(req.body.price);
-
-    if (req.body.acao == "Atualizar") {
-        game.setId(req.body.id);
-        let retorno = game.Update(con);
-        res.sendFile(__dirname + "/views/result.html");
-
-    }
-    else {
-        if (req.body.acao == "Cancelar") {
-            res.redirect("../");
-        }
-        else {
-            let retorno = game.Insert(con);
-            res.sendFile(__dirname + "/views/result.html");
-        }
-    }
-});
-
-app.post("/clients/salvar/", (req,res) => {
+app.post("/clients/save/", (req,res) => {
     let client = new clientsDAO();
     client.setCPF(req.body.cpf);
     client.setPassword(req.body.password);
@@ -101,72 +69,108 @@ app.post("/clients/salvar/", (req,res) => {
     client.setEmail(req.body.email);
     client.setPhone(req.body.phone);
 
-    if (req.body.acao == "Atualizar") {
-        let retorno = client.Update(con);
-        res.sendFile(__dirname + "/views/result.html");
-
+    if (req.body.action == "Inserir") {
+        let result = client.Insert(con);
+        res.render("result.ejs");
+    }
+    else if (req.body.action == "Atualizar") {
+        let result = client.Update(con);
+        res.render("result.ejs");
     }
     else {
-        if (req.body.acao == "Cancelar") {
-            res.redirect("../");
-        }
-        else {
-            let retorno = client.Insert(con);
-            res.sendFile(__dirname + "/views/result.html");
-        }
+        res.redirect("../");
     }
 });
 
-app.post("/purchases/salvar/", (req,res) => {
+app.get("/clients/delete/", (req,res) => {
+    let client = new clientsDAO();
+    client.setCPF(req.query.cpf);
+
+    client.Delete(con);
+    res.render("result.ejs");
+});
+
+//---------Implementações do cadastro de jogos---------
+
+app.get("/games/", (req,res) => {
+    let game = new gamesDAO();
+
+    game.List(con, (result) => {
+        res.render("games/list.ejs", {games: result});
+    })
+});
+
+app.get("/games/form/", (req,res) => {
+    let game = new gamesDAO();
+    game.setId(req.query.id);
+
+    game.buscarPorId(con, (result) => {
+        res.render("games/form.ejs", {game:result});
+    })
+});
+
+app.post("/games/save/", (req,res) => {
+    let game = new gamesDAO();
+    game.setId(req.body.id);
+    game.setTitle(req.body.title);
+    game.setGenre(req.body.genre);
+    game.setDeveloper(req.body.developer);
+    game.setPublication(req.body.publication);
+    game.setPrice(req.body.price);
+
+    if (req.body.action == "Salvar") {
+        if (game.getId() <= 0) {
+            let retorno = game.Insert(con);
+            res.render("result.ejs");
+        }
+        else {
+            let retorno = game.Update(con);
+            res.render("result.ejs");
+        }
+    }
+    else {
+        res.redirect("../");
+    }
+});
+
+app.get("/games/delete/", (req,res) => {
+    let game = new gamesDAO();
+    game.setId(req.query.id);
+
+    game.Delete(con);
+    res.render("result.ejs");
+});
+
+//---------Implementações do cadastro de compras---------
+
+app.get("/purchases/", (req,res) => {
+    let purchase = new purchasesDAO();
+
+    purchase.List(con, (result) => {
+        res.render("purchases/list.ejs", {purchases: result});
+    })
+});
+
+app.get("/purchases/form/", (req,res) => {
+    res.sendFile(__dirname + "/views/purchases/form.html");
+});
+
+app.post("/purchases/save/", (req,res) => {
     let purchase = new purchasesDAO();
     purchase.setClient(req.body.client);
     purchase.setGame(req.body.game);
 
     let retorno = purchase.Insert(con);
-    res.sendFile(__dirname + "/views/result.html");
+    res.render("result.ejs");
 
     //No sistema, não haverá a possibilidade de atualizar uma compra, somente realizar e cancelar a compra
 });
 
-app.get("/games/excluir/", (req,res) => {
-    let game = new gamesDAO();
-    game.setId(req.query.id);
-
-    game.Delete(con);
-    res.sendFile(__dirname + "/views/result.html");
-});
-
-app.get("/clients/excluir/", (req,res) => {
-    let client = new clientsDAO();
-    client.setCPF(req.query.cpf);
-
-    client.Delete(con);
-    res.sendFile(__dirname + "/views/result.html");
-});
-
-app.get("/purchases/excluir/", (req,res) => {
+app.get("/purchases/delete/", (req,res) => {
     let purchase = new purchasesDAO();
     purchase.setClient(req.query.cpf_client);
     purchase.setGame(req.query.id_game);
 
     purchase.Delete(con);
-    res.sendFile(__dirname + "/views/result.html");
-});
-
-app.get("/games/atualizar/", (req,res) => {
-    let game = new gamesDAO();
-    game.setId(req.query.id);
-
-    game.buscarPorId(con, (result) => {
-        res.render("forms/gamesForm.ejs", {game:result});
-    })
-});
-
-app.get("/clients/atualizar/", (req,res) => {
-    let client = new clientsDAO();
-    client.setCPF(req.query.cpf);
-
-    client.buscarPorId(con, (result) => {
-        res.render("forms/clientsForm.ejs", {client:result});
-    })
+    res.render("result.ejs");
 });
