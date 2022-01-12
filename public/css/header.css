@@ -1,41 +1,27 @@
-/*------ Estilo geral do header ------*/
-
 header {
     background-color: #154C6E;
+    width: 100%;
+    position: fixed;
+    margin-bottom: 10px;
+    z-index: 1;
 }
 
-header ul {
-    list-style-type: none;
+header #login {
+    padding: 23px 0;
+    margin-left: 90%;
+    position: relative;
 }
 
-header ul li {
-    display: inline-block;
-}
-
-header ul a {
+header #login a {
     color: #71bfff;
     text-decoration: none;
 }
 
-/*------ Estilo do Título "Aqueous" ------*/
-
-header ul a #title {
-    padding: 20px 4%;
-    background-color: #0f3852;
+header #logged {
+    padding: 12.5px 0;
 }
 
-header ul a #title h1 {
-    color: white;
-}
-
-/*------ Estilo do das opções do usuário ------*/
-
-header ul #user {
-    float: right;
-    margin-top: 30px;
-    margin-right: 30px;
-}
-
-header ul #user select {
-    text-align: center;
+header #logged select {
+    padding-top: 20px;
+    margin-left: 80%;
 }

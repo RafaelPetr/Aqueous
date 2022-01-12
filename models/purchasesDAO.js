@@ -1,15 +1,15 @@
 module.exports = class purchasesDAO {
     constructor() {
-        this.client = "";
+        this.user = "";
         this.game = 0;
     }
 
-    setClient = (client) => {
-        this.client = client;
+    setUser = (user) => {
+        this.user = user;
     }
 
-    getClient = () => {
-        return this.client;
+    getUser = () => {
+        return this.user;
     }
 
     setGame = (game) => {
@@ -30,17 +30,17 @@ module.exports = class purchasesDAO {
     }
 
     Insert = (connection) => {
-        let sql = "INSERT INTO Compras (cpf_cliente, id_jogo) VALUES (?,?)";
+        let sql = "INSERT INTO Compras (cpf_usere, id_jogo) VALUES (?,?)";
         
-        connection.query(sql,[this.client,this.game],(err,result) => {
+        connection.query(sql,[this.user,this.game],(err,result) => {
             if (err) throw err;
         })
     }
 
     Delete = (connection) => {
-        let sql = "DELETE FROM Compras WHERE cpf_cliente = ? AND id_jogo = ?";
+        let sql = "DELETE FROM Compras WHERE cpf_usere = ? AND id_jogo = ?";
 
-        connection.query(sql, [this.client,this.game], (err,result) =>{
+        connection.query(sql, [this.user,this.game], (err,result) =>{
             if (err) throw err;
         })
     }

@@ -30,7 +30,7 @@ con.connect((err) => {
 
 //---------Importando models das tabelas---------
 
-const clientsDAO = require("./models/clientsDAO");
+const usersDAO = require("./models/usersDAO");
 const gamesDAO = require("./models/gamesDAO");
 const purchasesDAO = require("./models/purchasesDAO");
 
@@ -40,41 +40,41 @@ app.get("/", (req,res) => {
     res.render("index.ejs");
 });
 
-//---------Implementações do cadastro de clientes---------
+//---------Implementações do cadastro de usuários---------
 
-app.get("/clients/", (req,res) => {
-    let client = new clientsDAO();
+app.get("/users/", (req,res) => {
+    let user = new usersDAO();
 
-    client.List(con, (result) => {
-        res.render("clients/list.ejs", {clients: result});
+    user.List(con, (result) => {
+        res.render("users/list.ejs", {users: result});
     })
 });
 
-app.get("/clients/form/", (req,res) => {
-    let client = new clientsDAO();
-    client.setCPF(req.query.cpf);
+app.get("/users/form/", (req,res) => {
+    let user = new usersDAO();
+    user.setCPF(req.query.cpf);
 
-    client.buscarPorId(con, (result) => {
-        res.render("clients/form.ejs", {client:result});
+    user.buscarPorId(con, (result) => {
+        res.render("users/form.ejs", {user:result});
     })
 });
 
-app.post("/clients/save/", (req,res) => {
-    let client = new clientsDAO();
-    client.setCPF(req.body.cpf);
-    client.setPassword(req.body.password);
-    client.setName(req.body.name);
-    client.setBirthDate(req.body.birthDate);
-    client.setNationality(req.body.nationality);
-    client.setEmail(req.body.email);
-    client.setPhone(req.body.phone);
+app.post("/users/save/", (req,res) => {
+    let user = new usersDAO();
+    user.setCPF(req.body.cpf);
+    user.setPassword(req.body.password);
+    user.setName(req.body.name);
+    user.setBirthDate(req.body.birthDate);
+    user.setNationality(req.body.nationality);
+    user.setEmail(req.body.email);
+    user.setPhone(req.body.phone);
 
     if (req.body.action == "Inserir") {
-        let result = client.Insert(con);
+        let result = user.Insert(con);
         res.render("result.ejs");
     }
     else if (req.body.action == "Atualizar") {
-        let result = client.Update(con);
+        let result = user.Update(con);
         res.render("result.ejs");
     }
     else {
@@ -82,11 +82,11 @@ app.post("/clients/save/", (req,res) => {
     }
 });
 
-app.get("/clients/delete/", (req,res) => {
-    let client = new clientsDAO();
-    client.setCPF(req.query.cpf);
+app.get("/users/delete/", (req,res) => {
+    let user = new usersDAO();
+    user.setCPF(req.query.cpf);
 
-    client.Delete(con);
+    user.Delete(con);
     res.render("result.ejs");
 });
 
@@ -152,12 +152,12 @@ app.get("/purchases/", (req,res) => {
 });
 
 app.get("/purchases/form/", (req,res) => {
-    res.sendFile(__dirname + "/views/purchases/form.html");
+    res.render("purchases/form.ejs");
 });
 
 app.post("/purchases/save/", (req,res) => {
     let purchase = new purchasesDAO();
-    purchase.setClient(req.body.client);
+    purchase.setUser(req.body.user);
     purchase.setGame(req.body.game);
 
     let retorno = purchase.Insert(con);
@@ -168,7 +168,7 @@ app.post("/purchases/save/", (req,res) => {
 
 app.get("/purchases/delete/", (req,res) => {
     let purchase = new purchasesDAO();
-    purchase.setClient(req.query.cpf_client);
+    purchase.setUser(req.query.cpf_user);
     purchase.setGame(req.query.id_game);
 
     purchase.Delete(con);

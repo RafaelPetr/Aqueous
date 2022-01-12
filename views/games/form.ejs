@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">    
+    <link rel="stylesheet" type="text/css" href="/css/form.css">    
     <title>Cadastro de Jogos</title>
 </head>
 <body>
-    <h1>Formulário de Jogos</h1>
-    <form action="../save/" method="post">
+    <%- include("../snippets/header.ejs", {user:true}); %>
+    <%- include("../snippets/nav.ejs"); %>
+    <main>
+        <form action="../save/" method="post">
+            <%- include("../snippets/formTitle.ejs", {titulo:(game.length > 0 ? game[0].titulo:undefined)}); %>
 
-        <input type="hidden" name="id" id="id" value="<%= (game.length > 0 ? game[0].id:'') %>"><br>
+            <input type="hidden" name="id" id="id" value="<%= (game.length > 0 ? game[0].id:'') %>"><br>
 
-        <label for="title">Título:</label>
-        <input type="text" name="title" id="title" value="<%= (game.length > 0 ? game[0].titulo:'') %>"><br>
+            <label for="title">Título</label>
+            <input type="text" name="title" id="title" value="<%= (game.length > 0 ? game[0].titulo:'') %>"><br>
 
-        <label for="genre">Gênero:</label>
-        <input type="text" name="genre" id="genre" value="<%= (game.length > 0 ? game[0].genero:'') %>"><br>
+            <label for="genre">Gênero</label>
+            <input type="text" name="genre" id="genre" value="<%= (game.length > 0 ? game[0].genero:'') %>"><br>
 
-        <label for="developer">Desenvolvedor:</label>
-        <input type="text" name="developer" id="developer" value="<%= (game.length > 0 ? game[0].desenvolvedor:'') %>"><br>
+            <label for="developer">Desenvolvedor</label>
+            <input type="text" name="developer" id="developer" value="<%= (game.length > 0 ? game[0].desenvolvedor:'') %>"><br>
 
-        <label for="publication">Data de Publicação:</label>
-        <input type="date" name="publication" id="publication" value="<%= (game.length > 0 ? game[0].data_publicacao:'') %>"><br>
+            <label for="publication">Data de Publicação</label>
+            <input type="date" name="publication" id="publication" value="<%= (game.length > 0 ? game[0].data_publicacao:'') %>"><br>
 
-        <label for="price">Preço:</label>
-        <input type="float" name="price" id="price" value="<%= (game.length > 0 ? game[0].preco:'') %>"><br>
+            <label for="price">Preço</label>
+            <input type="float" name="price" id="price" value="<%= (game.length > 0 ? game[0].preco:'') %>"><br>
 
-        <input type="submit" name="action" value="Salvar">
-        <input type="submit" name="action" value="Cancelar">
-    </form>
+            <input type="submit" name="action" value="Salvar">
+            <input type="submit" name="action" value="Cancelar">
+        </form>
+    </main>
+    <%- include("../snippets/footer.ejs"); %>
 </body>
 </html>

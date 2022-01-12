@@ -1,4 +1,4 @@
-module.exports = class clientsDAO {
+module.exports = class usersDAO {
     constructor() {
         this.cpf = "";
         this.password = "";

@@ -1,0 +1,39 @@
+main #options .row {
+    background-color: #cce1f1;
+
+    width: 95%;
+    padding: 20px;
+    margin-bottom: 35px;
+    border-radius: 5px;
+}
+
+main #options .row h1 {
+    color: #154C6E;
+}
+
+main #options .row .games {
+    white-space: nowrap;
+    overflow: auto;
+}
+
+main #options .row .games .card {
+    display: inline-block;
+    background-color: #e4f5ff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-right: 20px;
+    max-width: 230px;
+}
+
+main #options .row .games .card img {
+    border: 2px solid #cce1f1;
+    border-radius: 5px;
+}
+
+main #options .row .games .card p {
+    border: 2px solid #cce1f1;
+    padding: 0 5px;
+
+    white-space: normal;
+    word-wrap: break-word;
+}

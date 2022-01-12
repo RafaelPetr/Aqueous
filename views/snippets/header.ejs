@@ -1,11 +1,7 @@
-<link rel="stylesheet" type="text/css" href="css/header.css">
+<link rel="stylesheet" type="text/css" href="/css/header.css">
 <header>
-    <ul>
-        <a href="/">
-            <li id="title"><h1>Aqueous</h1></li>
-        </a>
-        <li id="user">
-            <% if (user) { %>
+    <% if (user) { %>
+        <div id="logged">
             <select onchange="console.log('LEL')">
                 <option style="display:none"><%= user %></option>
                 <option value="volvo">Volvo</option>
@@ -14,9 +10,10 @@
                 <option value="audi">Audi</option>
                 <option value="BBBBBBBBBBBBBBBBB">BBBBBBBBBBBBBBBBB</option>
             </select>
-            <% } else { %>
-                <a href="/login/">Entrar</a>
-            <% } %>
-        </li>
-    </ul>
+        </div>
+    <% } else { %>
+        <div id="login">
+            <a href="/login/">Entrar</a>
+        </div>
+    <% } %>
 </header>

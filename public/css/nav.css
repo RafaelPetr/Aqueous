@@ -1,0 +1,42 @@
+nav {
+    position: fixed;
+    height: 100%;
+    width: 220px;
+
+    z-index: 2;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
+
+nav a h1 {
+    background-color: #0e3046;
+    padding: 18px 0;
+    position: relative;
+}
+
+nav a h1:hover {
+    background-color: #081b27;
+}
+
+nav ul {
+    list-style: none;
+    background-color: #cce1f1;
+    height: 100%;
+}
+
+nav ul a li {
+    text-align: left;
+    padding: 16px 20px;
+    
+    text-decoration: none;
+    font-weight: bold;
+    color: #154C6E;
+}
+
+nav ul a li:hover {
+    background-color: #91bee2;
+}

@@ -2,30 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">    
+    <link rel="stylesheet" type="text/css" href="/css/list.css">
     <title>Cadastro de Compras</title>
 </head>
 <body>
-    <h1>Lista de Compras</h1>
-    <a href="./form/">Inserir Compras</a><br>
-    <a href="../">Voltar para Home</a>
-    <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
-        <tr>
-            <th>Ação</th>
-            <th>CPF do Comprador</th>
-            <th>ID do Jogo</th>
-        </tr>
-
-        <% purchases.forEach((purchase) => { %>
+    <%- include("../snippets/header.ejs", {user:true}); %>
+    <%- include("../snippets/nav.ejs"); %>
+    <main>
+        <h1>Lista de Compras</h1>
+        <a href="./form/">Inserir Compras</a><br>
+        <a href="../">Voltar para Home</a>
+        <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
             <tr>
-                <td>
-                    <a href="./delete/?cpf_client=<%= purchase.cpf_cliente %>&id_game=<%= purchase.id_jogo %>">Excluir</a>
-                </td>
-                <td><%= purchase.cpf_cliente %></td>
-                <td><%= purchase.id_jogo %></td>
+                <th>Ação</th>
+                <th>CPF do Comprador</th>
+                <th>ID do Jogo</th>
             </tr>
-        <% }) %>
-    </table>	
+
+            <% purchases.forEach((purchase) => { %>
+                <tr>
+                    <td>
+                        <a href="./delete/?cpf_client=<%= purchase.cpf_cliente %>&id_game=<%= purchase.id_jogo %>">Excluir</a>
+                    </td>
+                    <td><%= purchase.cpf_cliente %></td>
+                    <td><%= purchase.id_jogo %></td>
+                </tr>
+            <% }) %>
+        </table>
+    </main>
+    <%- include("../snippets/footer.ejs"); %>
 </body>
 </html>

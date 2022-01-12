@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">    
+    <link rel="stylesheet" type="text/css" href="/css/form.css">    
+    <title>Cadastro de Compras</title>
+</head>
+<body>
+    <%- include("../snippets/header.ejs", {user:true}); %>
+    <%- include("../snippets/nav.ejs"); %>
+    <main>
+        <h1>Formulário de Cadastro de Compra</h1>
+        <form action="../save/" method="post">
+            <label for="client">Cliente:</label>
+            <input type="text" name="client" id="client">
+
+            <label for="game">Jogo:</label>
+            <input type="number" name="game" id="game"><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </main>
+    <%- include("../snippets/footer.ejs"); %>
+</body>
+</html>

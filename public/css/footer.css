@@ -1,0 +1,15 @@
+footer {
+    background-color: #154C6E;
+    text-align: right;
+
+    height: 10%;
+    padding: 10px 0;
+    z-index: 3;
+
+    margin-top: 80vh;
+}
+
+footer span {
+    color: #71bfff;
+    margin-right: 10px;
+}
