@@ -1,143 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="/css/home.css">
-    <title>Home</title>
-</head>
-<body>
-    
-    <div id="container">
-        <%- include("snippets/header.ejs", {user:false}); %>
-        <%- include("snippets/nav.ejs"); %>
-        <main>
-            <section id="options">
-                <div class="row">
-                    <h1>Aventura</h1>
-                    <br>
-                    <div class="games">
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/css/styles.css">
+        <link rel="stylesheet" type="text/css" href="/css/home.css">
+        <title>Home</title>
+        <script>
+            teucu = () => {
+                console.log('teucu');
+            }
+        </script>
+    </head>
+    <body>
+        <div id="container">
+            <%- include("snippets/header.ejs", {logged:false}); %>
+            <%- include("snippets/nav.ejs"); %>
+            <main>
+                <section id="options">
+
+                    <!-- Listagem de jogos por adicionados recentemente -->
+                    <div class="row">
+                        <h1>Adicionados Recentemente</h1>
+                        <br>
+                        <div class="games">
+                            <% games.forEach(game => { %>
+                                <% if (Date.now() - new Date(game.publication).getTime() <= 86400000*8) { %>
+                                    <div class="card">
+                                        <h3><%= game.title %></h3>
+                                        <a href="./gamepage/?id=<%= game.id %>"><img src="img/<%= game.image %>"></img></a>
+                                        <p><%= game.description %></p>
+                                    </div>
+                                <% } %>
+                            <% }) %>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <h1>Aventura</h1>
-                    <br>
-                    <div class="games">
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <h1>Aventura</h1>
-                    <br>
-                    <div class="games">
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <h1>Aventura</h1>
-                    <br>
-                    <div class="games">
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                        <div class="card">
-                            <a href="#"><img src="img/placeholder.png"></img></a>
-                            <p>afuyhauf awdawdas asdaw a aaaaaaaaaaaaaaaaaaaaaa a aa a aa a</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-        <%- include("snippets/footer.ejs"); %>
-    </div>
-</body>
+
+                    <!-- Listagem de jogos por gênero -->
+                    <% genres.forEach(genre => { %>
+                        <% if (games_genres.some(e => e.id_genre === genre.id)) { %>
+                            <div class="row">
+                                <h1><%= genre.name %></h1>
+                                <br>
+                                <div class="games">
+                                    <% games.forEach(game => { %>
+                                        <% if (games_genres.some(e => e.id_game === game.id && e.id_genre == genre.id)) { %>
+                                            <div class="card">
+                                                <h3><%= game.title %></h3>
+                                                <a href="./gamepage/?id=<%= game.id %>"><img src="img/<%= game.image %>"></img></a>
+                                                <p><%= game.description %></p>
+                                            </div>
+                                        <% } %>
+                                    <% }) %>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                    
+                </section>
+            </main>
+            <%- include("snippets/footer.ejs"); %>
+        </div>
+    </body>
 </html>

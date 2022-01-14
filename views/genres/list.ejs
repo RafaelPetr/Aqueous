@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/list.css">
+    <title>Cadastro de Gêneros</title>
+</head>
+<body>
+    <%- include("../snippets/header.ejs", {logged:false}); %>
+    <%- include("../snippets/nav.ejs"); %>
+    <main>
+        <div id="list">
+            <h1>Lista de Gêneros</h1><br>
+            <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
+                <tr>
+                    <th>Ações</th>
+                    <th>ID</th>
+                    <th>Nome</th>
+                </tr>
+
+                <% genres.forEach((genre) => { %>
+                    <tr>
+                        <td>
+                            <a href="./form/?id=<%= genre.id %>">Atualizar</a>
+                            <a href="./delete/?id=<%= genre.id %>">Excluir</a>
+                        </td>
+                        <td><%= genre.id %></td>
+                        <td><%= genre.name %></td>
+                    </tr>
+                <% }) %>
+            </table><br>
+            <p><a href="./form/?genre=-1">Inserir Gênero</a></p>
+        </div>
+    </main>
+    <%- include("../snippets/footer.ejs"); %>
+</body>
+</html>

@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <title>Resultado</title>
 </head>
 <body>
-    <p>Ação efetuada no banco de dados.</p>
-    <a href="../">Voltar para a Lista</a>
+    <%- include("snippets/header.ejs", {logged:false}); %>
+    <%- include("snippets/nav.ejs"); %>
+    <main>
+        <h1 style="text-align: center;">Ação efetuada no banco de dados!</h1><br>
+        <p style="text-align: center;"><a href="../">Voltar para a Lista</a></p>
+    </main>
+    <%- include("snippets/footer.ejs"); %>
 </body>
 </html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">    
+    <link rel="stylesheet" type="text/css" href="/css/form.css">    
+    <title>Cadastro de Gêneros</title>
+</head>
+<body>
+    <%- include("../snippets/header.ejs", {logged:false}); %>
+    <%- include("../snippets/nav.ejs"); %>
+    <main>
+        <form action="../save/" method="post">
+            <%- include("../snippets/formTitle.ejs", {titulo:(genre.length > 0 ? genre[0].nome:undefined)}); %>
+            
+            <label for="id"></label>
+            <input type="hidden" name="id" id="id" value="<%= (genre.length > 0 ? genre[0].id:'') %>"><br>
+
+            <label for="name">Nome</label>
+            <input type="text" name="name" id="name" value="<%= (genre.length > 0 ? genre[0].name:'') %>"><br>
+
+            <input type="submit" name="action" value="Salvar">
+            <input type="submit" name="action" value="Cancelar">
+        </form>
+    </main>
+    <%- include("../snippets/footer.ejs"); %>
+</body>
+</html>

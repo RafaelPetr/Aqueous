@@ -2,34 +2,67 @@ CREATE DATABASE Aqueous;
 
 USE Aqueous;
 
-CREATE TABLE Clientes (
+CREATE TABLE Users (
 	cpf VARCHAR(11) NOT NULL,
-	senha VARCHAR(8) NOT NULL,
-	nome VARCHAR(40) NOT NULL,
-	data_nascimento DATE NOT NULL,
-	nacionalidade VARCHAR(20) NOT NULL,
+	password VARCHAR(8) NOT NULL,
+	name VARCHAR(40) NOT NULL,
+	birthdate DATE NOT NULL,
+	nationality VARCHAR(20) NOT NULL,
 	email VARCHAR(100) NOT NULL,
-	telefone VARCHAR(14) NOT NULL,
+	phone VARCHAR(14) NOT NULL,
+	wallet DECIMAL(15,2) NOT NULL,
 	PRIMARY KEY (cpf)
 );
 
-CREATE TABLE Jogos (
+CREATE TABLE Games (
 	id INT NOT NULL AUTO_INCREMENT,
-	titulo VARCHAR(50) NOT NULL,
-	genero VARCHAR(20) NOT NULL,
-	desenvolvedor VARCHAR(50) NOT NULL,
-	data_publicacao DATE NOT NULL,
-	preco DECIMAL(15,2) NOT NULL,
+	title VARCHAR(50) NOT NULL,
+	developer VARCHAR(50) NOT NULL,
+	publication DATE NOT NULL,
+	price DECIMAL(15,2) NOT NULL,
+	description VARCHAR(250) NOT NULL,
+	image VARCHAR(20) NOT NULL,
+	executable VARCHAR(20) NOT NULL,
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE Compras (
-	cpf_cliente VARCHAR(11) NOT NULL,
-	id_jogo INT NOT NULL,
-	PRIMARY KEY (cpf_cliente,id_jogo),
-	FOREIGN KEY (cpf_cliente) REFERENCES Clientes(cpf) ON DELETE CASCADE,
-	FOREIGN KEY (id_jogo) REFERENCES Jogos(id) ON DELETE CASCADE
+CREATE TABLE Genres (
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(50) NOT NULL,
+	PRIMARY KEY (id)
 );
+
+CREATE TABLE Games_Genres (
+	id_game INT NOT NULL,
+	id_genre INT NOT NULL,
+	PRIMARY KEY (id_game,id_genre),
+	FOREIGN KEY (id_game) REFERENCES Games(id) ON DELETE CASCADE,
+	FOREIGN KEY (id_genre) REFERENCES Genres(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Purchases (
+	cpf_user VARCHAR(11) NOT NULL,
+	id_game INT NOT NULL,
+	PRIMARY KEY (cpf_user,id_game),
+	FOREIGN KEY (cpf_user) REFERENCES Users(cpf) ON DELETE CASCADE,
+	FOREIGN KEY (id_game) REFERENCES Games(id) ON DELETE CASCADE
+);
+
+INSERT INTO Genres (name) VALUES ('Aventura');
+INSERT INTO Genres (name) VALUES ('Ação');
+INSERT INTO Genres (name) VALUES ('Terror');
+INSERT INTO Genres (name) VALUES ('RPG');
+INSERT INTO Genres (name) VALUES ('Puzzle');
+INSERT INTO Genres (name) VALUES ('FPS');
+
+INSERT INTO Games (title, developer, publication, price, description, image, executable) VALUES ("Overwatch","Blizzard",NOW(),99.99,"Jogo de Tiro com Heróis","placeholder.png","placeholder.html");
+INSERT INTO Games (title, developer, publication, price, description, image, executable) VALUES ("Resident Evil 4","Capcom",NOW(),199.99,"Jogo de Terror com elementos de Ação e Puzzle","placeholder.png","placeholder.html");
+
+INSERT INTO Games_Genres (id_game,id_genre) VALUES (1,2);
+INSERT INTO Games_Genres (id_game,id_genre) VALUES (1,6);
+INSERT INTO Games_Genres (id_game,id_genre) VALUES (2,2);
+INSERT INTO Games_Genres (id_game,id_genre) VALUES (2,3);
+INSERT INTO Games_Genres (id_game,id_genre) VALUES (2,5);
 
 CREATE USER 'aqueous'@'localhost' IDENTIFIED BY '123456'; 
 GRANT ALL PRIVILEGES ON * . * TO 'aqueous'@'localhost';

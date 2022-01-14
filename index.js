@@ -33,11 +33,24 @@ con.connect((err) => {
 const usersDAO = require("./models/usersDAO");
 const gamesDAO = require("./models/gamesDAO");
 const purchasesDAO = require("./models/purchasesDAO");
+const genresDAO = require("./models/genresDAO");
+const games_genresDAO = require("./models/games_genresDAO");
+const { DATE } = require("mysql/lib/protocol/constants/types");
 
 //---------Implementações da home page---------
 
 app.get("/", (req,res) => {
-    res.render("index.ejs");
+    let games = new gamesDAO();
+    let genres = new genresDAO();
+    let games_genres = new games_genresDAO();
+
+    games.List(con, (resultGames) => {
+        genres.List(con, (resultGenres) => {
+            games_genres.List(con, (resultGames_Genres) => {
+                res.render("index.ejs", {games:resultGames,genres:resultGenres,games_genres:resultGames_Genres});
+            })
+        })
+    })
 });
 
 //---------Implementações do cadastro de usuários---------
@@ -54,7 +67,7 @@ app.get("/users/form/", (req,res) => {
     let user = new usersDAO();
     user.setCPF(req.query.cpf);
 
-    user.buscarPorId(con, (result) => {
+    user.SearchForId(con, (result) => {
         res.render("users/form.ejs", {user:result});
     })
 });
@@ -64,16 +77,18 @@ app.post("/users/save/", (req,res) => {
     user.setCPF(req.body.cpf);
     user.setPassword(req.body.password);
     user.setName(req.body.name);
-    user.setBirthDate(req.body.birthDate);
+    user.setBirthdate(req.body.birthdate);
     user.setNationality(req.body.nationality);
     user.setEmail(req.body.email);
     user.setPhone(req.body.phone);
 
     if (req.body.action == "Inserir") {
+        user.setWallet(100);
         let result = user.Insert(con);
         res.render("result.ejs");
     }
     else if (req.body.action == "Atualizar") {
+        user.setWallet(req.body.wallet);
         let result = user.Update(con);
         res.render("result.ejs");
     }
@@ -102,10 +117,13 @@ app.get("/games/", (req,res) => {
 
 app.get("/games/form/", (req,res) => {
     let game = new gamesDAO();
+    let genre = new genresDAO();
     game.setId(req.query.id);
 
-    game.buscarPorId(con, (result) => {
-        res.render("games/form.ejs", {game:result});
+    game.SearchForId(con, (resultGames) => {
+        genre.List(con, (resultGenres) => {
+            res.render("games/form.ejs", {game:resultGames,genres:resultGenres});
+        })
     })
 });
 
@@ -113,18 +131,45 @@ app.post("/games/save/", (req,res) => {
     let game = new gamesDAO();
     game.setId(req.body.id);
     game.setTitle(req.body.title);
-    game.setGenre(req.body.genre);
     game.setDeveloper(req.body.developer);
-    game.setPublication(req.body.publication);
+    game.setPublication(new Date());
     game.setPrice(req.body.price);
+    game.setDescription(req.body.description);
+
+    //Manter arquivos como o placeholder padrão para o funcionamento da home page em construção
+    game.setImage("placeholder.png");
+    game.setExecutable("placeholder.html");
+
+    let games_genres = new games_genresDAO();
+    let genres = req.body.genres;
+
+    if (genres == undefined) {
+        genres = [];
+    }
 
     if (req.body.action == "Salvar") {
         if (game.getId() <= 0) {
-            let retorno = game.Insert(con);
+            let retornoGame = game.Insert(con);
+
+            //Relaciona jogo com a tabela de gêneros
+            genres.forEach(genre => {
+                games_genres.setId_Genre(genre);
+                let retornoGames_Genres = games_genres.Insert(con);
+            });
+
             res.render("result.ejs");
         }
         else {
             let retorno = game.Update(con);
+
+            //Relaciona jogo com a tabela de gêneros
+            games_genres.setId_Game(game.getId());
+            games_genres.Delete(con);
+            genres.forEach(genre => {
+                games_genres.setId_Genre(genre);
+                let retornoGames_Genres = games_genres.Insert(con);
+            });
+
             res.render("result.ejs");
         }
     }
@@ -172,5 +217,52 @@ app.get("/purchases/delete/", (req,res) => {
     purchase.setGame(req.query.id_game);
 
     purchase.Delete(con);
+    res.render("result.ejs");
+});
+
+//---------Implementações do cadastro de gêneros---------
+
+app.get("/genres/", (req,res) => {
+    let genre = new genresDAO();
+
+    genre.List(con, (result) => {
+        res.render("genres/list.ejs", {genres: result});
+    })
+});
+
+app.get("/genres/form/", (req,res) => {
+    let genre = new genresDAO();
+    genre.setId(req.query.id);
+
+    genre.SearchForId(con, (result) => {
+        res.render("genres/form.ejs", {genre:result});
+    })
+});
+
+app.post("/genres/save/", (req,res) => {
+    let genre = new genresDAO();
+    genre.setId(req.body.id);
+    genre.setName(req.body.name);
+
+    if (req.body.action == "Salvar") {
+        if (genre.getId() <= 0) {
+            let retorno = genre.Insert(con);
+            res.render("result.ejs");
+        }
+        else {
+            let retorno = genre.Update(con);
+            res.render("result.ejs");
+        }
+    }
+    else {
+        res.redirect("../");
+    }
+});
+
+app.get("/genres/delete/", (req,res) => {
+    let genre = new genresDAO();
+    genre.setId(req.query.id);
+
+    genre.Delete(con);
     res.render("result.ejs");
 });

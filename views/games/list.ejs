@@ -7,38 +7,43 @@
     <title>Cadastro de Jogos</title>
 </head>
 <body>
-    <%- include("../snippets/header.ejs", {user:true}); %>
+    <%- include("../snippets/header.ejs", {logged:false}); %>
     <%- include("../snippets/nav.ejs"); %>
     <main>
-        <h1>Lista de Jogos</h1>
-        <a href="./form/?id=-1">Inserir Jogo</a><br>
-        <a href="../">Voltar para Home</a>
-        <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
-            <tr>
-                <th>Ação</th>
-                <th>Id</th>
-                <th>Título</th>
-                <th>Gênero</th>
-                <th>Desenvolvedor</th>
-                <th>Data de Publicação</th>
-                <th>Preço</th>
-            </tr>
-
-            <% games.forEach((game) => { %>
+        <div id="list">
+            <h1>Lista de Jogos</h1><br>
+            <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
                 <tr>
-                    <td>
-                        <a href="./form/?id=<%= game.id %>">Atualizar</a>
-                        <a href="./delete/?id=<%= game.id %>">Excluir</a>
-                    </td>
-                    <td><%= game.id %></td>
-                    <td><%= game.titulo %></td>
-                    <td><%= game.genero %></td>
-                    <td><%= game.desenvolvedor %></td>
-                    <td><%= game.data_publicacao %></td>
-                    <td><%= game.preco %></td>
+                    <th>Ação</th>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Desenvolvedor</th>
+                    <th>Data de Publicação</th>
+                    <th>Preço</th>
+                    <th>Descrição</th>
+                    <th>Imagem</th>
+                    <th>Executável</th>
                 </tr>
-            <% }) %>
-        </table>
+
+                <% games.forEach((game) => { %>
+                    <tr>
+                        <td>
+                            <a href="./form/?id=<%= game.id %>">Atualizar</a>
+                            <a href="./delete/?id=<%= game.id %>">Excluir</a>
+                        </td>
+                        <td><%= game.id %></td>
+                        <td><%= game.title %></td>
+                        <td><%= game.developer %></td>
+                        <td><%= game.publication %></td>
+                        <td><%= game.price %></td>
+                        <td><%= game.description %></td>
+                        <td><%= game.image %></td>
+                        <td><%= game.executable %></td>
+                    </tr>
+                <% }) %>
+            </table><br>
+            <p><a href="./form/?id=-1">Inserir Jogo</a></p>
+        </div>
     </main>
     <%- include("../snippets/footer.ejs"); %>
 </body>

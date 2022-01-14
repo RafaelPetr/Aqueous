@@ -2,10 +2,12 @@ module.exports = class gamesDAO {
     constructor() {
         this.id = 0;
         this.title = "";
-        this.genre = "";
         this.developer = "";
         this.publication = new Date();
         this.price = 0;
+        this.description = "";
+        this.image = "";
+        this.executable = "";
     }
 
     setId = (id) => {
@@ -22,14 +24,6 @@ module.exports = class gamesDAO {
 
     getTitle = () => {
         return this.title;
-    }
-
-    setGenre = (genre) => {
-        this.genre = genre;
-    }
-
-    getGenre = () => {
-        return this.genre;
     }
 
     setDeveloper = (developer) => {
@@ -56,8 +50,32 @@ module.exports = class gamesDAO {
         return this.price;
     }
 
+    setDescription = (description) => {
+        this.description = description;
+    }
+
+    getDescription = () => {
+        return this.description;
+    }
+
+    setImage = (image) => {
+        this.image = image;
+    }
+
+    getImage = () => {
+        return this.image;
+    }
+
+    setExecutable = (executable) => {
+        this.executable = executable;
+    }
+
+    getExecutable = () => {
+        return this.executable;
+    }
+
     List = (connection, callback) => {
-        let sql = "SELECT * FROM Jogos";
+        let sql = "SELECT * FROM Games";
 
         connection.query(sql, (err,result) => {
             if (err) throw err;
@@ -66,23 +84,23 @@ module.exports = class gamesDAO {
     }
 
     Insert = (connection) => {
-        let sql = "INSERT INTO Jogos (titulo, genero, desenvolvedor, data_publicacao, preco) VALUES (?,?,?,?,?)";
+        let sql = "INSERT INTO Games (title, developer, publication, price, description, image, executable) VALUES (?,?,?,?,?,?,?)";
 
-        connection.query(sql, [this.title,this.genre,this.developer,this.publication,this.price], (err,result) =>{
+        connection.query(sql, [this.title,this.developer,this.publication,this.price,this.description,this.image,this.executable], (err,result) =>{
             if (err) throw err;
         })
     }
 
     Delete = (connection) => {
-        let sql = "DELETE FROM Jogos WHERE id = ?";
+        let sql = "DELETE FROM Games WHERE id = ?";
 
         connection.query(sql, [this.id], (err,result) =>{
             if (err) throw err;
         })
     }
 
-    buscarPorId = (connection, callback) => {
-        let sql = "SELECT *, DATE_FORMAT(data_publicacao, '%Y-%m-%d') as data_publicacao FROM Jogos WHERE id = ?";
+    SearchForId = (connection, callback) => {
+        let sql = "SELECT *, DATE_FORMAT(publication, '%Y-%m-%d') as publication FROM Games WHERE id = ?";
 
         connection.query(sql, [this.id], (err,result) =>{
             if (err) throw err;
@@ -91,9 +109,9 @@ module.exports = class gamesDAO {
     }
 
     Update = (connection) => {
-        let sql = "UPDATE Jogos SET titulo = ?, genero = ?, desenvolvedor = ?, data_publicacao = ?, preco = ? WHERE id = ?";
+        let sql = "UPDATE Games SET title = ?, developer = ?, price = ?, description = ?, image = ?, executable = ? WHERE id = ?";
 
-        connection.query(sql, [this.title, this.genre, this.developer, this.publication, this.price, this.id], (err,result) =>{
+        connection.query(sql, [this.title, this.developer, this.price, this.description, this.image, this.executable, this.id], (err,result) =>{
             if (err) throw err;
         })
     }

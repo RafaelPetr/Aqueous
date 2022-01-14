@@ -8,39 +8,43 @@
     <title>Cadastro de Usuários</title>
 </head>
 <body>
-    <%- include("../snippets/header.ejs", {user:true}); %>
+    <%- include("../snippets/header.ejs", {logged:false}); %>
     <%- include("../snippets/nav.ejs"); %>
     <main>
-        <h1>Lista de Usuários</h1><br>
-        <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
-            <tr>
-                <th>Ação</th>
-                <th>CPF</th>
-                <th>Senha</th>
-                <th>Nome</th>
-                <th>Data de Nascimento</th>
-                <th>Nacionalidade</th>
-                <th>E-mail</th>
-                <th>Telefone</th>
-            </tr>
-
-            <% users.forEach((user) => { %>
+        <div id="list">
+            <h1>Lista de Usuários</h1><br>
+            <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
                 <tr>
-                    <td>
-                        <a href="./form/?cpf=<%= user.cpf %>">Atualizar</a>
-                        <a href="./delete/?cpf=<%= user.cpf %>">Excluir</a>
-                    </td>
-                    <td><%= user.cpf %></td>
-                    <td><%= user.senha %></td>
-                    <td><%= user.nome %></td>
-                    <td><%= user.data_nascimento %></td>
-                    <td><%= user.nacionalidade %></td>
-                    <td><%= user.email %></td>
-                    <td><%= user.telefone %></td>
+                    <th>Ação</th>
+                    <th>CPF</th>
+                    <th>Senha</th>
+                    <th>Nome</th>
+                    <th>Data de Nascimento</th>
+                    <th>Nacionalidade</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Carteira</th>
                 </tr>
-            <% }) %>
-        </table><br>
-        <a href="./form/?cpf=-1">Inserir Usuário</a><br>
+
+                <% users.forEach((user) => { %>
+                    <tr>
+                        <td>
+                            <a href="./form/?cpf=<%= user.cpf %>">Atualizar</a>
+                            <a href="./delete/?cpf=<%= user.cpf %>">Excluir</a>
+                        </td>
+                        <td><%= user.cpf %></td>
+                        <td><%= user.password %></td>
+                        <td><%= user.name %></td>
+                        <td><%= user.birthdate %></td>
+                        <td><%= user.nationality %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.phone %></td>
+                        <td>R$ <%= user.wallet %></td>
+                    </tr>
+                <% }) %>
+            </table><br>
+            <p><a href="./form/?cpf=-1">Inserir Usuário</a></p>
+        </div>
     </main>
     <%- include("../snippets/footer.ejs"); %>
 </body>

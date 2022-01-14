@@ -7,29 +7,30 @@
     <title>Cadastro de Compras</title>
 </head>
 <body>
-    <%- include("../snippets/header.ejs", {user:true}); %>
+    <%- include("../snippets/header.ejs", {logged:false}); %>
     <%- include("../snippets/nav.ejs"); %>
     <main>
-        <h1>Lista de Compras</h1>
-        <a href="./form/">Inserir Compras</a><br>
-        <a href="../">Voltar para Home</a>
-        <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
-            <tr>
-                <th>Ação</th>
-                <th>CPF do Comprador</th>
-                <th>ID do Jogo</th>
-            </tr>
-
-            <% purchases.forEach((purchase) => { %>
+        <div id="list">
+            <h1>Lista de Compras</h1><br>
+            <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
                 <tr>
-                    <td>
-                        <a href="./delete/?cpf_client=<%= purchase.cpf_cliente %>&id_game=<%= purchase.id_jogo %>">Excluir</a>
-                    </td>
-                    <td><%= purchase.cpf_cliente %></td>
-                    <td><%= purchase.id_jogo %></td>
+                    <th>Ação</th>
+                    <th>CPF do Comprador</th>
+                    <th>ID do Jogo</th>
                 </tr>
-            <% }) %>
-        </table>
+
+                <% purchases.forEach((purchase) => { %>
+                    <tr>
+                        <td>
+                            <a href="./delete/?cpf_user=<%= purchase.cpf_user %>&id_game=<%= purchase.id_game %>">Excluir</a>
+                        </td>
+                        <td><%= purchase.cpf_user %></td>
+                        <td><%= purchase.id_game %></td>
+                    </tr>
+                <% }) %>
+            </table><br>
+            <p><a href="./form/">Inserir Compras</a></p>
+        </div>
     </main>
     <%- include("../snippets/footer.ejs"); %>
 </body>
