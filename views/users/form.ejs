@@ -11,7 +11,7 @@
     <%- include("../snippets/nav.ejs"); %>
     <main>
         <form action="../save/" method="post">
-            <%- include("../snippets/formTitle.ejs", {titulo:(user.length > 0 ? user[0].nome:undefined)}); %>
+            <%- include("../snippets/formTitle.ejs", {type:"Usuário",title:(user.length > 0 ? user[0].name:undefined)}); %>
             
             <% if (user.length <= 0) { %>
                 <label for="cpf">CPF</label>

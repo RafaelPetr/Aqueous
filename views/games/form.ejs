@@ -10,7 +10,7 @@
     <%- include("../snippets/nav.ejs"); %>
     <main>
         <form action="../save/" method="post">
-            <%- include("../snippets/formTitle.ejs", {titulo:(game.length > 0 ? game[0].title:undefined)}); %>
+            <%- include("../snippets/formTitle.ejs", {type:"Jogo",title:(game.length > 0 ? game[0].title:undefined)}); %>
 
             <input type="hidden" name="id" id="id" value="<%= (game.length > 0 ? game[0].id:'') %>"><br>
 
