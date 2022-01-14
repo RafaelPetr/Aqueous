@@ -24,6 +24,8 @@
 
 #list table tr:nth-child(even){background-color: #f2f2f2;}
 
+#list table tr:nth-child(odd){background-color: white;}
+
 #list table tr:hover {background-color: #ddd;}
 
 #list table th {
