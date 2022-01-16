@@ -29,6 +29,15 @@ module.exports = class games_genresDAO {
         })
     }
 
+    SearchGenreForGame = (connection, callback) => {
+        let sql = "SELECT id_genre FROM Games_Genres WHERE id_game = ?";
+
+        connection.query(sql, [this.id_game], (err,result) =>{
+            if (err) throw err;
+            return callback(result);
+        })
+    }
+
     Insert = (connection) => {
         let sql = "INSERT INTO Games_Genres (id_genre,id_game) VALUES (?,?)";
         if (this.id_game <= 0) {

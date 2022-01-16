@@ -17,13 +17,14 @@ CREATE TABLE Users (
 CREATE TABLE Games (
 	id INT NOT NULL AUTO_INCREMENT,
 	title VARCHAR(50) NOT NULL,
-	developer VARCHAR(50) NOT NULL,
 	publication DATE NOT NULL,
 	price DECIMAL(15,2) NOT NULL,
 	description VARCHAR(250) NOT NULL,
 	image VARCHAR(20) NOT NULL,
 	executable VARCHAR(20) NOT NULL,
-	PRIMARY KEY (id)
+	cpf_developer VARCHAR(11) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (cpf_developer) REFERENCES Users(cpf) ON DELETE CASCADE
 );
 
 CREATE TABLE Genres (
@@ -48,6 +49,8 @@ CREATE TABLE Purchases (
 	FOREIGN KEY (id_game) REFERENCES Games(id) ON DELETE CASCADE
 );
 
+INSERT INTO Users (cpf,password,name,birthdate,nationality,email,phone,wallet) VALUES ("0","0","Usuário Teste","2002/12/01","Brasileiro","teste@gmail.com","0",100.00);
+
 INSERT INTO Genres (name) VALUES ('Aventura');
 INSERT INTO Genres (name) VALUES ('Ação');
 INSERT INTO Genres (name) VALUES ('Terror');
@@ -55,8 +58,8 @@ INSERT INTO Genres (name) VALUES ('RPG');
 INSERT INTO Genres (name) VALUES ('Puzzle');
 INSERT INTO Genres (name) VALUES ('FPS');
 
-INSERT INTO Games (title, developer, publication, price, description, image, executable) VALUES ("Overwatch","Blizzard",NOW(),99.99,"Jogo de Tiro com Heróis","placeholder.png","placeholder.html");
-INSERT INTO Games (title, developer, publication, price, description, image, executable) VALUES ("Resident Evil 4","Capcom",NOW(),199.99,"Jogo de Terror com elementos de Ação e Puzzle","placeholder.png","placeholder.html");
+INSERT INTO Games (title, publication, price, description, image, executable, cpf_developer) VALUES ("Overwatch",NOW(),99.99,"Jogo de Tiro com Heróis","placeholder.png","placeholder.html","0");
+INSERT INTO Games (title, publication, price, description, image, executable, cpf_developer) VALUES ("Resident Evil 4",NOW(),199.99,"Jogo de Terror com elementos de Ação e Puzzle","placeholder.png","placeholder.html","0");
 
 INSERT INTO Games_Genres (id_game,id_genre) VALUES (1,2);
 INSERT INTO Games_Genres (id_game,id_genre) VALUES (1,6);

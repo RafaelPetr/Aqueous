@@ -7,11 +7,11 @@
     <title>Cadastro de Gêneros</title>
 </head>
 <body>
-    <%- include("../snippets/header.ejs", {user:userLogged}); %>
-    <%- include("../snippets/nav.ejs", {user:userLogged}); %>
+    <%- include("../../snippets/header.ejs", {user:userLogged}); %>
+    <%- include("../../snippets/nav.ejs", {user:userLogged}); %>
     <main>
         <form action="../save/" method="post">
-            <%- include("../snippets/formTitle.ejs", {type:"Gênero",title:(genre.length > 0 ? genre[0].name:undefined)}); %>
+            <%- include("../../snippets/formTitle.ejs", {type:"Gênero",title:(genre.length > 0 ? genre[0].name:undefined)}); %>
             
             <label for="id"></label>
             <input type="hidden" name="id" id="id" value="<%= (genre.length > 0 ? genre[0].id:'') %>"><br>
@@ -23,6 +23,6 @@
             <input type="submit" name="action" value="Cancelar">
         </form>
     </main>
-    <%- include("../snippets/footer.ejs"); %>
+    <%- include("../../snippets/footer.ejs"); %>
 </body>
 </html>

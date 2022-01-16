@@ -6,19 +6,16 @@
     <title>Cadastro de Jogos</title>
 </head>
 <body>
-    <%- include("../snippets/header.ejs", {user:userLogged}); %>
-    <%- include("../snippets/nav.ejs", {user:userLogged}); %>
+    <%- include("../../snippets/header.ejs", {user:userLogged}); %>
+    <%- include("../../snippets/nav.ejs", {user:userLogged}); %>
     <main>
         <form action="../save/" method="post">
-            <%- include("../snippets/formTitle.ejs", {type:"Jogo",title:(game.length > 0 ? game[0].title:undefined)}); %>
+            <%- include("../../snippets/formTitle.ejs", {type:"Jogo",title:(game.length > 0 ? game[0].title:undefined)}); %>
 
             <input type="hidden" name="id" id="id" value="<%= (game.length > 0 ? game[0].id:'') %>"><br>
 
             <label for="title">Título</label>
             <input type="text" name="title" id="title" value="<%= (game.length > 0 ? game[0].title:'') %>"><br>
-
-            <label for="developer">Desenvolvedor</label>
-            <input type="text" name="developer" id="developer" value="<%= (game.length > 0 ? game[0].developer:'') %>"><br>
 
             <label for="price">Preço</label>
             <input type="float" name="price" id="price" value="<%= (game.length > 0 ? game[0].price:'') %>"><br>
@@ -32,12 +29,25 @@
             <label for="executable">Executável</label>
             <input type="text" name="executable" id="executable" value="<%= (game.length > 0 ? game[0].executable:'') %>"><br>
 
+            <label for="cpf_developer">CPF do Desenvolvedor</label>
+            <input type="text" name="cpf_developer" id="cpf_developer" value="<%= (game.length > 0 ? game[0].cpf_developer:'') %>"><br>
+            
             <span>Gêneros</span><br>
             <ul>
                 <% genres.forEach((genre) => { %>
+                    <% marked = false %>
                     <li>
                         <label for="genres[]"><%= genre.name %></label>
-                        <input type="checkbox" name="genres[]" value="<%= genre.id %>"><br>
+                        <% games_genres.forEach((game_genre) => { %>
+                            <% if (game_genre.id_genre == genre.id) { %>
+                                <input type="checkbox" name="genres[]" value="<%= genre.id %>" checked><br>
+                                <% marked = true; %>
+                            <% } %>
+                        <% }) %>
+
+                        <% if (!marked) { %>
+                            <input type="checkbox" name="genres[]" value="<%= genre.id %>"><br>
+                        <% } %>
                     </li>
                 <% }) %>
             </ul>
@@ -46,6 +56,6 @@
             <input type="submit" name="action" value="Cancelar">
         </form>
     </main>
-    <%- include("../snippets/footer.ejs"); %>
+    <%- include("../../snippets/footer.ejs"); %>
 </body>
 </html>

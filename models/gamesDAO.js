@@ -2,12 +2,12 @@ module.exports = class gamesDAO {
     constructor() {
         this.id = 0;
         this.title = "";
-        this.developer = "";
         this.publication = new Date();
         this.price = 0;
         this.description = "";
         this.image = "";
         this.executable = "";
+        this.cpf_developer = "";
     }
 
     setId = (id) => {
@@ -27,11 +27,11 @@ module.exports = class gamesDAO {
     }
 
     setDeveloper = (developer) => {
-        this.developer = developer;
+        this.cpf_developer = developer;
     }
 
     getDeveloper = () => {
-        return this.developer;
+        return this.cpf_developer;
     }
 
     setPublication = (publication) => {
@@ -84,9 +84,9 @@ module.exports = class gamesDAO {
     }
 
     Insert = (connection) => {
-        let sql = "INSERT INTO Games (title, developer, publication, price, description, image, executable) VALUES (?,?,?,?,?,?,?)";
+        let sql = "INSERT INTO Games (title, publication, price, description, image, executable, cpf_developer) VALUES (?,?,?,?,?,?,?)";
 
-        connection.query(sql, [this.title,this.developer,this.publication,this.price,this.description,this.image,this.executable], (err,result) =>{
+        connection.query(sql, [this.title,this.publication,this.price,this.description,this.image,this.executable,this.cpf_developer], (err,result) =>{
             if (err) throw err;
         })
     }
@@ -104,14 +104,23 @@ module.exports = class gamesDAO {
 
         connection.query(sql, [this.id], (err,result) =>{
             if (err) throw err;
-                return callback(result);
+            return callback(result);
+        })
+    }
+
+    SearchForDeveloper = (connection, callback) => {
+        let sql = "SELECT *, DATE_FORMAT(publication, '%Y-%m-%d') as publication FROM Games WHERE cpf_developer = ?";
+
+        connection.query(sql, [this.cpf_developer], (err,result) =>{
+            if (err) throw err;
+            return callback(result);
         })
     }
 
     Update = (connection) => {
-        let sql = "UPDATE Games SET title = ?, developer = ?, price = ?, description = ?, image = ?, executable = ? WHERE id = ?";
+        let sql = "UPDATE Games SET title = ?, price = ?, description = ?, image = ?, executable = ?, cpf_developer = ? WHERE id = ?";
 
-        connection.query(sql, [this.title, this.developer, this.price, this.description, this.image, this.executable, this.id], (err,result) =>{
+        connection.query(sql, [this.title, this.price, this.description, this.image, this.executable, this.cpf_developer, this.id], (err,result) =>{
             if (err) throw err;
         })
     }

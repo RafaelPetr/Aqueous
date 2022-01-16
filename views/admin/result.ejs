@@ -8,12 +8,12 @@
     <title>Resultado</title>
 </head>
 <body>
-    <%- include("snippets/header.ejs", {user:userLogged}); %>
-    <%- include("snippets/nav.ejs", {user:userLogged}); %>
+    <%- include("../snippets/header.ejs", {user:userLogged}); %>
+    <%- include("../snippets/nav.ejs", {user:userLogged}); %>
     <main>
         <h1 style="text-align: center;">Ação efetuada no banco de dados!</h1><br>
         <p style="text-align: center;"><a href="../">Voltar para a Lista</a></p>
     </main>
-    <%- include("snippets/footer.ejs"); %>
+    <%- include("../snippets/footer.ejs"); %>
 </body>
 </html>

@@ -3,14 +3,15 @@
     <a href="/"><h1>Aqueous</h1></a>
     <% if (user) { %>
         <ul>
-            <a href="/biblioteca/"><li>Biblioteca</li></a>
+            <a href="/acquired/"><li>Jogos Adquiridos</li></a>
+            <a href="/publish/"><li>Publicar Jogos</li></a>
         </ul>
     <% } else { %>
         <ul>
-            <a href="/users/"><li>Cadastro de Usuários</li></a>
-            <a href="/genres/"><li>Cadastro de Gêneros</li></a>
-            <a href="/games/"><li>Cadastro de Jogos</li></a>
-            <a href="/purchases/"><li>Cadastro de Compras</li></a>
+            <a href="/admin/users/"><li>Cadastro de Usuários</li></a>
+            <a href="/admin/genres/"><li>Cadastro de Gêneros</li></a>
+            <a href="/admin/games/"><li>Cadastro de Jogos</li></a>
+            <a href="/admin/purchases/"><li>Cadastro de Compras</li></a>
         </ul>
     <% } %>
 </nav>

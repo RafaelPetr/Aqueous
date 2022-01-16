@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">    
+    <link rel="stylesheet" type="text/css" href="/css/form.css">    
+    <title>Cadastro de Jogos</title>
+</head>
+<body>
+    <%- include("../../snippets/header.ejs", {user:userLogged}); %>
+    <%- include("../../snippets/nav.ejs", {user:userLogged}); %>
+    <main>
+        <form action="../save/" method="post">
+            <%- include("../../snippets/formTitle.ejs", {type:"Jogo",title:(game.length > 0 ? game[0].title:undefined)}); %>
+
+            <input type="hidden" name="id" id="id" value="<%= (game.length > 0 ? game[0].id:'') %>"><br>
+
+            <label for="title">Título</label>
+            <input type="text" name="title" id="title" value="<%= (game.length > 0 ? game[0].title:'') %>"><br>
+
+            <label for="price">Preço</label>
+            <input type="float" name="price" id="price" value="<%= (game.length > 0 ? game[0].price:'') %>"><br>
+
+            <label for="description">Descrição</label>
+            <input type="text" name="description" id="description" value="<%= (game.length > 0 ? game[0].description:'') %>"><br>
+
+            <label for="image">Imagem</label>
+            <input type="text" name="image" id="image" value="<%= (game.length > 0 ? game[0].image:'') %>"><br>
+
+            <label for="executable">Executável</label>
+            <input type="text" name="executable" id="executable" value="<%= (game.length > 0 ? game[0].executable:'') %>"><br>
+
+            <input type="hidden" name="cpf_developer" id="cpf_developer" value="<%= userLogged.cpf %>"><br>
+            
+            <span>Gêneros</span><br>
+            <ul>
+                <% genres.forEach((genre) => { %>
+                    <% marked = false %>
+                    <li>
+                        <label for="genres[]"><%= genre.name %></label>
+                        <% games_genres.forEach((game_genre) => { %>
+                            <% if (game_genre.id_genre == genre.id) { %>
+                                <input type="checkbox" name="genres[]" value="<%= genre.id %>" checked><br>
+                                <% marked = true; %>
+                            <% } %>
+                        <% }) %>
+
+                        <% if (!marked) { %>
+                            <input type="checkbox" name="genres[]" value="<%= genre.id %>"><br>
+                        <% } %>
+                    </li>
+                <% }) %>
+            </ul>
+
+            <input type="submit" name="action" value="Salvar">
+            <input type="submit" name="action" value="Cancelar">
+        </form>
+    </main>
+    <%- include("../../snippets/footer.ejs"); %>
+</body>
+</html>

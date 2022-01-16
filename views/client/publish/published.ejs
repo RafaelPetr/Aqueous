@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/list.css">
+    <title>Cadastro de Jogos</title>
+</head>
+<body>
+    <%- include("../../snippets/header.ejs", {user:userLogged}); %>
+    <%- include("../../snippets/nav.ejs", {user:userLogged}); %>
+    <main>
+        <div id="list">
+            <h1>Lista de Jogos</h1><br>
+            <table border="1" bordercolor="#000000" cellpading="0" cellspacing="0">
+                <tr>
+                    <th>Ação</th>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Data de Publicação</th>
+                    <th>Preço</th>
+                    <th>Descrição</th>
+                    <th>Imagem</th>
+                    <th>Executável</th>
+                    <th>Desenvolvedor</th>
+                </tr>
+
+                <% games.forEach((game) => { %>
+                    <tr>
+                        <td>
+                            <a href="./form/?id=<%= game.id %>">Atualizar</a>
+                            <a href="./delete/?id=<%= game.id %>">Excluir</a>
+                        </td>
+                        <td><%= game.id %></td>
+                        <td><%= game.title %></td>
+                        <td><%= game.publication %></td>
+                        <td><%= game.price %></td>
+                        <td><%= game.description %></td>
+                        <td><%= game.image %></td>
+                        <td><%= game.executable %></td>
+                        <td><%= game.cpf_developer %></td>
+                    </tr>
+                <% }) %>
+            </table><br>
+            <p><a href="./form/?id=-1">Inserir Jogo</a></p>
+        </div>
+    </main>
+    <%- include("../../snippets/footer.ejs"); %>
+</body>
+</html>

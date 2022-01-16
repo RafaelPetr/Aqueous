@@ -50,7 +50,7 @@ module.exports = class genresDAO {
 
         connection.query(sql, [this.id], (err,result) =>{
             if (err) throw err;
-                return callback(result);
+            return callback(result);
         })
     }
 

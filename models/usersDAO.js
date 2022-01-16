@@ -98,12 +98,12 @@ module.exports = class usersDAO {
         })
     }
 
-    SearchForId = (connection, callback) => {
+    SearchForCPF = (connection, callback) => {
         let sql = "SELECT *, DATE_FORMAT(birthdate,'%Y-%m-%d') as birthdate FROM Users WHERE cpf = ?";
 
         connection.query(sql, [this.cpf], (err,result) =>{
             if (err) throw err;
-                return callback(result);
+            return callback(result);
         })
     }
 
@@ -120,6 +120,14 @@ module.exports = class usersDAO {
         let sql = "UPDATE Users SET password = ?, name = ?, birthdate = ?, nationality = ?, email = ?, phone = ?, wallet = ? WHERE cpf = ?";
 
         connection.query(sql, [this.password, this.name, this.birthdate, this.nationality, this.email, this.phone, 100, this.cpf], (err,result) =>{
+            if (err) throw err;
+        })
+    }
+
+    UpdateWallet = (connection, payment) => {
+        let sql = "UPDATE Users SET wallet = wallet - ? WHERE cpf = ?";
+        
+        connection.query(sql, [payment,this.cpf], (err,result) =>{
             if (err) throw err;
         })
     }
