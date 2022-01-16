@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">    
+    <link rel="stylesheet" type="text/css" href="/css/form.css">    
+    <title>Comprar Jogo</title>
+    <script>
+        user = "<%= userLogged %>";
+        console.log(user);
+        if (user == "") {
+            window.location.replace("/login/");
+        }
+    </script>
+</head>
+<body>
+    <%- include("../../snippets/header.ejs", {user:userLogged}); %>
+    <%- include("../../snippets/nav.ejs", {user:userLogged}); %>
+    <main>
+        <% console.log(game) %>
+        <% genres.forEach(genre => { %>
+            <% if (game_genres.some(e => e.id_genre === genre.id)) { %>
+                <% console.log(genre.name) %>
+            <% } %>
+        <% }) %>
+    </main>
+    <%- include("../../snippets/footer.ejs"); %>
+</body>
+</html>

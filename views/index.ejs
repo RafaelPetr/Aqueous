@@ -24,7 +24,7 @@
                                 <% if (Date.now() - new Date(game.publication).getTime() <= 86400000*8) { %>
                                     <div class="card">
                                         <h3><%= game.title %></h3>
-                                        <a href="./gamepage/?id=<%= game.id %>"><img src="img/<%= game.image %>"></img></a>
+                                        <a href="./buypage/?id_game=<%= game.id %>"><img src="img/<%= game.image %>"></img></a>
                                         <p><%= game.description %></p>
                                     </div>
                                 <% } %>
@@ -43,7 +43,7 @@
                                         <% if (games_genres.some(e => e.id_game === game.id && e.id_genre == genre.id)) { %>
                                             <div class="card">
                                                 <h3><%= game.title %></h3>
-                                                <a href="./gamepage/?id=<%= game.id %>"><img src="img/<%= game.image %>"></img></a>
+                                                <a href="./buypage/?id_game=<%= game.id %>"><img src="img/<%= game.image %>"></img></a>
                                                 <p><%= game.description %></p>
                                             </div>
                                         <% } %>

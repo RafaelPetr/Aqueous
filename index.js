@@ -231,9 +231,25 @@ app.get("/publish/delete/", (req,res) => {
     game.setId(req.query.id);
 
     game.Delete(con);
-    res.render("admin/result.ejs", {userLogged:req.session.user});
+    res.redirect("../");
 });
 
+app.get("/buypage/", (req,res) => {
+    let game = new gamesDAO();
+    let genres = new genresDAO();
+    let games_genres = new games_genresDAO();
+
+    game.setId(req.query.id_game);
+    games_genres.setId_Game(game.getId());
+
+    game.SearchForId(con, (resultGames) => {
+        genres.List(con, (resultGenres) => {
+            games_genres.SearchGenreForGame(con, (resultGames_Genres) => {
+                res.render("client/publish/buypage.ejs", {userLogged:req.session.user,game:resultGames,genres:resultGenres,game_genres:resultGames_Genres});
+            });
+        });
+    });
+});
 
 
 //---------Funcionalidades de administrador---------
