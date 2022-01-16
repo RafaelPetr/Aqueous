@@ -10,8 +10,8 @@
     </head>
     <body>
         <div id="container">
-            <%- include("snippets/header.ejs", {logged:false}); %>
-            <%- include("snippets/nav.ejs"); %>
+            <%- include("snippets/header.ejs", {user:userLogged}); %>
+            <%- include("snippets/nav.ejs", {user:userLogged}); %>
             <main>
                 <section id="options">
 

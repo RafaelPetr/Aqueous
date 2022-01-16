@@ -1,14 +1,12 @@
 <link rel="stylesheet" type="text/css" href="/css/header.css">
 <header>
-    <% if (logged) { %>
+    <% if (user) { %>
         <div id="logged">
-            <select onchange="console.log('LEL')">
-                <option style="display:none"><%= user %></option>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="vw">VW</option>
-                <option value="audi">Audi</option>
-                <option value="BBBBBBBBBBBBBBBBB">BBBBBBBBBBBBBBBBB</option>
+            <select onchange="window.location.replace(this.value);">
+                <option style="display:none"><%= user.name %></option>
+                <option value="/login/exit/">Sair</option>
+                <option value="/login/register/?cpf=<%= user.cpf %>">Editar</option>
+                <option value="/login/delete/?cpf=<%= user.cpf %>">Excluir</option>
             </select>
         </div>
     <% } else { %>

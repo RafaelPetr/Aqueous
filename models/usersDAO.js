@@ -107,6 +107,15 @@ module.exports = class usersDAO {
         })
     }
 
+    Login = (connection,callback) => {
+        let sql = "SELECT *, DATE_FORMAT(birthdate,'%Y-%m-%d') as birthdate FROM Users WHERE cpf = ? and password = ?";
+        
+        connection.query(sql, [this.cpf,this.password], (err,result) =>{
+            if (err) throw err;
+                return callback(result);
+        })
+    }
+
     Update = (connection) => {
         let sql = "UPDATE Users SET password = ?, name = ?, birthdate = ?, nationality = ?, email = ?, phone = ?, wallet = ? WHERE cpf = ?";
 

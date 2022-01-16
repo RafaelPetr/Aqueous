@@ -1,10 +1,16 @@
 <link rel="stylesheet" type="text/css" href="/css/nav.css">
 <nav>
     <a href="/"><h1>Aqueous</h1></a>
-    <ul>
-        <a href="/users/"><li>Cadastro de Usuários</li></a>
-        <a href="/genres/"><li>Cadastro de Gêneros</li></a>
-        <a href="/games/"><li>Cadastro de Jogos</li></a>
-        <a href="/purchases/"><li>Cadastro de Compras</li></a>
-    </ul>
+    <% if (user) { %>
+        <ul>
+            <a href="/biblioteca/"><li>Biblioteca</li></a>
+        </ul>
+    <% } else { %>
+        <ul>
+            <a href="/users/"><li>Cadastro de Usuários</li></a>
+            <a href="/genres/"><li>Cadastro de Gêneros</li></a>
+            <a href="/games/"><li>Cadastro de Jogos</li></a>
+            <a href="/purchases/"><li>Cadastro de Compras</li></a>
+        </ul>
+    <% } %>
 </nav>

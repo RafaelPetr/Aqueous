@@ -7,8 +7,8 @@
     <title>Cadastro de Clientes</title>
 </head>
 <body>
-    <%- include("../snippets/header.ejs", {logged:false}); %>
-    <%- include("../snippets/nav.ejs"); %>
+    <%- include("../snippets/header.ejs", {user:userLogged}); %>
+    <%- include("../snippets/nav.ejs", {user:userLogged}); %>
     <main>
         <form action="../save/" method="post">
             <%- include("../snippets/formTitle.ejs", {type:"Usuário",title:(user.length > 0 ? user[0].name:undefined)}); %>

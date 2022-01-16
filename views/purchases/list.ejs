@@ -7,8 +7,8 @@
     <title>Cadastro de Compras</title>
 </head>
 <body>
-    <%- include("../snippets/header.ejs", {logged:false}); %>
-    <%- include("../snippets/nav.ejs"); %>
+    <%- include("../snippets/header.ejs", {user:userLogged}); %>
+    <%- include("../snippets/nav.ejs", {user:userLogged}); %>
     <main>
         <div id="list">
             <h1>Lista de Compras</h1><br>

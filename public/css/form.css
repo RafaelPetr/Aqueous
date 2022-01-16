@@ -10,6 +10,10 @@ form h1 {
     text-align: center;
 }
 
+form p {
+    text-align: center;
+}
+
 form li {
     margin-left: 20px;
 }
