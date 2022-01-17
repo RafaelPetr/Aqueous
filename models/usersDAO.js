@@ -75,7 +75,7 @@ module.exports = class usersDAO {
     }
 
     List = (connection, callback) => {
-        let sql = "SELECT * FROM Users";
+        let sql = "SELECT *, DATE_FORMAT(birthdate,'%d/%m/%Y') as birthdate FROM Users";
 
         connection.query(sql, (err,result) =>{
             if (err) throw err;
@@ -99,7 +99,7 @@ module.exports = class usersDAO {
     }
 
     SearchForCPF = (connection, callback) => {
-        let sql = "SELECT *, DATE_FORMAT(birthdate,'%Y-%m-%d') as birthdate FROM Users WHERE cpf = ?";
+        let sql = "SELECT *, DATE_FORMAT(birthdate,'%d/%m/%Y') as birthdate FROM Users WHERE cpf = ?";
 
         connection.query(sql, [this.cpf], (err,result) =>{
             if (err) throw err;
@@ -108,7 +108,7 @@ module.exports = class usersDAO {
     }
 
     Login = (connection,callback) => {
-        let sql = "SELECT *, DATE_FORMAT(birthdate,'%Y-%m-%d') as birthdate FROM Users WHERE cpf = ? and password = ?";
+        let sql = "SELECT *, DATE_FORMAT(birthdate,'%d/%m/%Y') as birthdate FROM Users WHERE cpf = ? and password = ?";
         
         connection.query(sql, [this.cpf,this.password], (err,result) =>{
             if (err) throw err;
@@ -126,7 +126,6 @@ module.exports = class usersDAO {
 
     UpdateWallet = (connection, payment) => {
         let sql = "UPDATE Users SET wallet = wallet - ? WHERE cpf = ?";
-        
         connection.query(sql, [payment,this.cpf], (err,result) =>{
             if (err) throw err;
         })

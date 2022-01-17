@@ -5,6 +5,13 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/css/list.css">
     <title>Cadastro de Jogos</title>
+    <script>
+        message = "<%= message %>";
+
+        if (message != "") {
+            alert(message);
+        }
+    </script>
 </head>
 <body>
     <%- include("../../snippets/header.ejs", {user:userLogged}); %>

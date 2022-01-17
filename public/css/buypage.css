@@ -1,0 +1,32 @@
+main {
+    font-size: 18px;
+}
+
+main h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+main figure {
+    height: 420px;
+}
+
+main figure img {
+    float: left;
+    width: 400px;
+    border: 2px solid black;
+}
+
+main figure figcaption {
+    width: 500px;
+    float: left;
+    margin-left: 10px;
+}
+
+main figure figcaption {
+    word-wrap: break-word;
+}
+
+main #buy {
+    text-align: center;
+}

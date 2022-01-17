@@ -7,7 +7,7 @@ header {
 }
 
 header #login {
-    padding: 23px 0;
+    padding: 23.5px 0;
     margin-left: 90%;
     position: relative;
 }
@@ -18,7 +18,7 @@ header #login a {
 }
 
 header #logged {
-    padding: 12.5px 0;
+    padding: 13.5px 0;
 }
 
 header #logged select {

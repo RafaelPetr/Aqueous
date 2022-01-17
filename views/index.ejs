@@ -21,7 +21,9 @@
                         <br>
                         <div class="games">
                             <% games.forEach(game => { %>
-                                <% if (Date.now() - new Date(game.publication).getTime() <= 86400000*8) { %>
+                                <% var dateParts = game.publication.split("/"); %>
+                                <% var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);%>
+                                <% if (Date.now() - dateObject.getTime() <= 86400000*8) { %>
                                     <div class="card">
                                         <h3><%= game.title %></h3>
                                         <a href="./buypage/?id_game=<%= game.id %>"><img src="img/<%= game.image %>"></img></a>

@@ -75,7 +75,7 @@ module.exports = class gamesDAO {
     }
 
     List = (connection, callback) => {
-        let sql = "SELECT * FROM Games";
+        let sql = "SELECT *, DATE_FORMAT(publication, '%d/%m/%Y') as publication FROM Games";
 
         connection.query(sql, (err,result) => {
             if (err) throw err;
@@ -90,7 +90,7 @@ module.exports = class gamesDAO {
             if (err) throw err;
         })
     }
-
+    
     Delete = (connection) => {
         let sql = "DELETE FROM Games WHERE id = ?";
 
@@ -100,7 +100,7 @@ module.exports = class gamesDAO {
     }
 
     SearchForId = (connection, callback) => {
-        let sql = "SELECT *, DATE_FORMAT(publication, '%Y-%m-%d') as publication FROM Games WHERE id = ?";
+        let sql = "SELECT *, DATE_FORMAT(publication, '%d/%m/%Y') as publication FROM Games WHERE id = ?";
 
         connection.query(sql, [this.id], (err,result) =>{
             if (err) throw err;
@@ -109,7 +109,7 @@ module.exports = class gamesDAO {
     }
 
     SearchForDeveloper = (connection, callback) => {
-        let sql = "SELECT *, DATE_FORMAT(publication, '%Y-%m-%d') as publication FROM Games WHERE cpf_developer = ?";
+        let sql = "SELECT *, DATE_FORMAT(publication, '%d/%m/%Y') as publication FROM Games WHERE cpf_developer = ?";
 
         connection.query(sql, [this.cpf_developer], (err,result) =>{
             if (err) throw err;

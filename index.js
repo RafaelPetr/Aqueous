@@ -50,7 +50,7 @@ app.get("/", (req,res) => {
     games.List(con, (resultGames) => {
         genres.List(con, (resultGenres) => {
             games_genres.List(con, (resultGames_Genres) => {
-                res.render("index.ejs", {userLogged:req.session.user,games:resultGames,genres:resultGenres,games_genres:resultGames_Genres});
+                res.render("index.ejs", {userLogged:req.session.user,message:req.query.message,games:resultGames,genres:resultGenres,games_genres:resultGames_Genres});
             })
         })
     })
@@ -150,11 +150,16 @@ app.get("/publish/", (req,res) => {
     game.setDeveloper(req.session.user.cpf);
 
     game.SearchForDeveloper(con, (result) => {
-        res.render("client/publish/published.ejs", {userLogged:req.session.user, games:result});
+        res.render("client/publish/published.ejs", {userLogged:req.session.user,message:req.query.message,games:result});
     })
 });
 
 app.get("/publish/form/", (req,res) => {
+    if (req.session.user.wallet - 10 < 0) {
+        res.redirect("../?message=Dinheiro insuficiente na carteira.");
+        return;
+    }
+
     let game = new gamesDAO();
     let genre = new genresDAO();
     let games_genres = new games_genresDAO();
@@ -195,27 +200,29 @@ app.post("/publish/save/", (req,res) => {
         if (game.getId() <= 0) {
             let user = new usersDAO();
             user.setCPF(req.body.cpf_developer);
-            user.UpdateWallet(con,10.0);
+            user.UpdateWallet(con,10);
 
-            let retornoGame = game.Insert(con);
+            req.session.user.wallet = req.session.user.wallet - 10;
+
+            let resultGame = game.Insert(con);
 
             //Relaciona jogo com a tabela de gêneros
             genres.forEach(genre => {
                 games_genres.setId_Genre(genre);
-                let retornoGames_Genres = games_genres.Insert(con);
+                let resultGames_Genres = games_genres.Insert(con);
             });
 
             res.redirect("../");
         }
         else {
-            let retorno = game.Update(con);
+            let result = game.Update(con);
 
             //Relaciona jogo com a tabela de gêneros
             games_genres.setId_Game(game.getId());
             games_genres.Delete(con);
             genres.forEach(genre => {
                 games_genres.setId_Genre(genre);
-                let retornoGames_Genres = games_genres.Insert(con);
+                let resultGames_Genres = games_genres.Insert(con);
             });
 
             res.redirect("../");
@@ -238,6 +245,7 @@ app.get("/buypage/", (req,res) => {
     let game = new gamesDAO();
     let genres = new genresDAO();
     let games_genres = new games_genresDAO();
+    let developer = new usersDAO();
 
     game.setId(req.query.id_game);
     games_genres.setId_Game(game.getId());
@@ -245,10 +253,41 @@ app.get("/buypage/", (req,res) => {
     game.SearchForId(con, (resultGames) => {
         genres.List(con, (resultGenres) => {
             games_genres.SearchGenreForGame(con, (resultGames_Genres) => {
-                res.render("client/publish/buypage.ejs", {userLogged:req.session.user,game:resultGames,genres:resultGenres,game_genres:resultGames_Genres});
+                developer.setCPF(resultGames[0].cpf_developer);
+                developer.SearchForCPF(con, (resultDev) => {
+                    res.render("client/publish/buypage.ejs", {userLogged:req.session.user,message:req.query.message,game:resultGames,genres:resultGenres,game_genres:resultGames_Genres,developer:resultDev});
+                });
             });
         });
     });
+});
+
+app.get("/buypage/buy/", (req,res) => {
+    let game = new gamesDAO();
+    let purchase = new purchasesDAO();
+    let user = new usersDAO();
+
+    game.setId(req.query.id_game);
+
+    purchase.setUser(req.session.user.cpf);
+    purchase.setGame(req.query.id_game);
+
+    user.setCPF(req.session.user.cpf);
+
+    game.SearchForId(con, (resultGames) => {
+        let price = resultGames[0].price;
+
+        if (req.session.user.wallet - price < 0) {
+            res.redirect("../?message=Dinheiro insuficiente na carteira.&id_game="+req.query.id_game);
+            return;
+        }
+
+        user.UpdateWallet(con,price);
+        req.session.user.wallet = req.session.user.wallet - price;
+
+        let result = purchase.Insert(con);
+        res.redirect("/acquired/");
+    })
 });
 
 
@@ -355,25 +394,25 @@ app.post("/admin/games/save/", (req,res) => {
 
     if (req.body.action == "Salvar") {
         if (game.getId() <= 0) {
-            let retornoGame = game.Insert(con);
+            let resultGame = game.Insert(con);
 
             //Relaciona jogo com a tabela de gêneros
             genres.forEach(genre => {
                 games_genres.setId_Genre(genre);
-                let retornoGames_Genres = games_genres.Insert(con);
+                let resultGames_Genres = games_genres.Insert(con);
             });
 
             res.render("admin/result.ejs", {userLogged:req.session.user});
         }
         else {
-            let retorno = game.Update(con);
+            let result = game.Update(con);
 
             //Relaciona jogo com a tabela de gêneros
             games_genres.setId_Game(game.getId());
             games_genres.Delete(con);
             genres.forEach(genre => {
                 games_genres.setId_Genre(genre);
-                let retornoGames_Genres = games_genres.Insert(con);
+                let resultGames_Genres = games_genres.Insert(con);
             });
 
             res.render("admin/result.ejs", {userLogged:req.session.user});
@@ -411,7 +450,7 @@ app.post("/admin/purchases/save/", (req,res) => {
     purchase.setUser(req.body.user);
     purchase.setGame(req.body.game);
 
-    let retorno = purchase.Insert(con);
+    let result = purchase.Insert(con);
     res.render("admin/result.ejs", {userLogged:req.session.user});
 
     //No sistema, não haverá a possibilidade de atualizar uma compra, somente realizar e cancelar a compra
@@ -452,11 +491,11 @@ app.post("/admin/genres/save/", (req,res) => {
 
     if (req.body.action == "Salvar") {
         if (genre.getId() <= 0) {
-            let retorno = genre.Insert(con);
+            let result = genre.Insert(con);
             res.render("admin/result.ejs", {userLogged:req.session.user});
         }
         else {
-            let retorno = genre.Update(con);
+            let result = genre.Update(con);
             res.render("admin/result.ejs", {userLogged:req.session.user});
         }
     }

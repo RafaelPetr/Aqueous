@@ -2,13 +2,18 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/css/styles.css">    
-    <link rel="stylesheet" type="text/css" href="/css/form.css">    
+    <link rel="stylesheet" type="text/css" href="/css/buypage.css">    
     <title>Comprar Jogo</title>
     <script>
         user = "<%= userLogged %>";
-        console.log(user);
+        message = "<%= message %>";
+
         if (user == "") {
             window.location.replace("/login/");
+        }
+
+        if (message != "") {
+            alert(message);
         }
     </script>
 </head>
@@ -16,12 +21,32 @@
     <%- include("../../snippets/header.ejs", {user:userLogged}); %>
     <%- include("../../snippets/nav.ejs", {user:userLogged}); %>
     <main>
-        <% console.log(game) %>
-        <% genres.forEach(genre => { %>
-            <% if (game_genres.some(e => e.id_genre === genre.id)) { %>
-                <% console.log(genre.name) %>
-            <% } %>
-        <% }) %>
+        <div id="container">
+            <h1><%= game[0].title %></h1>
+            <figure>
+                <div>
+                <img src="/img/<%= game[0].image %>"></img>
+                <figcaption>
+                    <p><b>Descrição:</b></p>
+                    <p><%= game[0].description %></p><br>
+                    <p><b>Data de Publicação:</b></p>
+                    <p><%= game[0].publication %></p><br>
+                    <p><b>Desenvolvedor:</b></p>
+                    <p><%= developer[0].name %></p><br>
+                    <p><b>Preço:</b></p>
+                    <p>R$ <%= game[0].price %></p><br>
+                    <p><b>Gêneros:</b></p>
+                    <% let genresNames = [] %>
+                    <% genres.forEach(genre => { %>
+                        <% if (game_genres.some(e => e.id_genre === genre.id)) { %>
+                            <% genresNames.push(genre.name) %>
+                        <% } %>
+                    <% }) %>
+                    <p><%= genresNames %></p><br>
+                </figcaption>
+            </figure><br>
+            <a href="./buy/?id_game=<%= game[0].id %>"><p id="buy">COMPRAR</p></a>
+        </div>
     </main>
     <%- include("../../snippets/footer.ejs"); %>
 </body>
