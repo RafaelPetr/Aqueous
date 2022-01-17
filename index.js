@@ -290,6 +290,37 @@ app.get("/buypage/buy/", (req,res) => {
     })
 });
 
+app.get("/acquired/", (req,res) => {
+    let purchases = new purchasesDAO();
+    let games = new gamesDAO();
+
+    purchases.setUser(req.session.user.cpf);
+
+    purchases.SearchForUser(con, (resultPurchases) => {
+        games.List(con, (resultGames) => {
+            res.render("client/acquired/acquired.ejs", {userLogged:req.session.user,purchases:resultPurchases,games:resultGames});
+        });
+    });
+});
+
+app.get("/acquired/play/", (req,res) => {
+    let games = new gamesDAO();
+    games.setId(req.query.id_game);
+
+    games.SearchForId(con, (resultGames) => {
+        res.render("client/acquired/placeholder.ejs", {game:resultGames[0]});
+    });
+});
+
+app.get("/acquired/cancel/", (req,res) => {
+    let purchase = new purchasesDAO();
+    purchase.setUser(req.session.user.cpf);
+    purchase.setGame(req.query.id_game);
+
+    purchase.Delete(con);
+    res.redirect("../");
+});
+
 
 //---------Funcionalidades de administrador---------
 
@@ -383,7 +414,7 @@ app.post("/admin/games/save/", (req,res) => {
 
     //Manter arquivos como o placeholder padrão para o funcionamento da home page em construção
     game.setImage("placeholder.png");
-    game.setExecutable("placeholder.html");
+    game.setExecutable("placeholder.ejs");
 
     let games_genres = new games_genresDAO();
     let genres = req.body.genres;

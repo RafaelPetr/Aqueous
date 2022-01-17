@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/acquired.css">
+    <title>Jogos Adquiridos</title>
+</head>
+<body>
+    <div id="container">
+        <%- include("../../snippets/header.ejs",{user:userLogged}) %>
+        <%- include("../../snippets/nav.ejs", {user:userLogged}); %>
+        <main>
+            <section id="options">
+                <% let rowCount = 0 %>
+                <% games.forEach(game => { %>
+                    <% if (purchases.some(e => e.id_game === game.id)) { %>
+                        <% if (rowCount % 3 == 0) { %>
+                            <div class="row">
+                        <% } %>
+                        <div class="card">
+                            <h3><%= game.title %></h3>
+                            <a href="./play/?id_game=<%= game.id %>"><img src="/img/<%= game.image %>"></img></a>
+                            <p class="description"><%= game.description %></p>
+                            <p class="cancel"><a href="./cancel/?id_game=<%= game.id %>">Cancelar Compra</a></p>
+                        </div>
+                        <% rowCount++ %>
+                        <% if (rowCount % 3 == 0) { %>
+                            </div>
+                        <% } %>
+                    <% } %>
+                <% }) %>
+            </div>
+        </main>
+        <%- include("../../snippets/footer.ejs"); %>
+    </div>
+</body>
+</html>

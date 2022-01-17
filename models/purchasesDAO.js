@@ -29,6 +29,15 @@ module.exports = class purchasesDAO {
         })
     }
 
+    SearchForUser = (connection, callback) => {
+        let sql = "SELECT * FROM Purchases WHERE cpf_user = ?";
+
+        connection.query(sql, [this.user], (err,result) => {
+            if (err) throw err;
+            return callback(result);
+        })
+    }
+
     Insert = (connection) => {
         let sql = "INSERT INTO Purchases (cpf_user, id_game) VALUES (?,?)";
         

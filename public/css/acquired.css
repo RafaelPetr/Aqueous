@@ -1,0 +1,46 @@
+main #options {
+    background-color: #cce1f1;
+    border-radius: 5px;
+}
+
+main #options .row {
+    color: #154C6E;
+
+    width: 95%;
+    padding: 20px;
+    margin-bottom: 35px;
+    border-radius: 5px;
+}
+
+main #options .row .card {
+    display: inline-block;
+    padding: 20px;
+    border-radius: 5px;
+    margin-left: 6.5%;
+    margin-right: 2%;
+    max-width: 230px;
+    background-color: #e4f5ff;
+}
+
+main #options .row .card h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+main #options .row .card img {
+    border: 2px solid #cce1f1;
+    border-radius: 5px;
+}
+
+main #options .row .card .description {
+    border: 2px solid #cce1f1;
+    padding: 0 5px;
+
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+main #options .row .card .cancel {
+    margin-top: 10px;
+    text-align: center;
+}
