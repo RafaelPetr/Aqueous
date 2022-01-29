@@ -17,10 +17,10 @@
             <input type="hidden" name="id" id="id" value="<%= (genre.length > 0 ? genre[0].id:'') %>"><br>
 
             <label for="name">Nome</label>
-            <input type="text" name="name" id="name" value="<%= (genre.length > 0 ? genre[0].name:'') %>"><br>
+            <input type="text" name="name" id="name" value="<%= (genre.length > 0 ? genre[0].name:'') %>" maxlength="50" required><br>
 
             <input type="submit" name="action" value="Salvar">
-            <input type="submit" name="action" value="Cancelar">
+            <input type="submit" name="action" value="Cancelar" formnovalidate>
         </form>
     </main>
     <%- include("../../snippets/footer.ejs"); %>

@@ -14,12 +14,13 @@
             <h1>Formulário de Cadastro de Compra</h1>
             
             <label for="user">CPF do usuário:</label>
-            <input type="text" name="user" id="user">
+            <input type="text" name="user" id="user" maxlength="11" required>
 
             <label for="game">ID do Jogo:</label>
-            <input type="text" name="game" id="game"><br>
+            <input type="text" name="game" id="game" maxlength="11" required><br>
 
-            <input type="submit" value="Salvar">
+            <input type="submit" name="action" value="Salvar">
+            <input type="submit" name="action" value="Cancelar" formnovalidate>
         </form>
     </main>
     <%- include("../../snippets/footer.ejs"); %>

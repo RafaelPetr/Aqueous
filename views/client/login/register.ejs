@@ -15,28 +15,28 @@
                     <%- include("../../snippets/formTitle.ejs", {type:"Usuário",title:(user.length > 0 ? user[0].name:undefined)}); %>
                     <% if (user.length <= 0) { %>
                         <label for="cpf">CPF</label>
-                        <input type="text" name="cpf" id="cpf" value=""><br>
+                        <input type="number" name="cpf" id="cpf" value="" maxlength="11" required><br>
                     <% } else { %>
                         <input type="hidden" name="cpf" id="cpf" value="<%= (user.length > 0 ? user[0].cpf:'') %>"><br>
                     <% } %>
         
                     <label for="password">Senha</label>
-                    <input type="password" name="password" id="password" value="<%= (user.length > 0 ? user[0].password:'') %>"><br>
+                    <input type="password" name="password" id="password" value="<%= (user.length > 0 ? user[0].password:'') %>" maxlength="8" required><br>
         
                     <label for="name">Nome</label>
-                    <input type="text" name="name" id="name" value="<%= (user.length > 0 ? user[0].name:'') %>"><br>
+                    <input type="text" name="name" id="name" value="<%= (user.length > 0 ? user[0].name:'') %>" maxlength="40" required><br>
         
                     <label for="birthdate">Data de Nascimento</label>
-                    <input type="date" name="birthdate" id="birthdate" value="<%= (user.length > 0 ? user[0].birthdate:'') %>"><br>
+                    <input type="date" name="birthdate" id="birthdate" value="<%= (user.length > 0 ? user[0].birthdate:'') %>" required><br>
         
                     <label for="nationality">Nacionalidade</label>
-                    <input type="text" name="nationality" id="nationality" value="<%= (user.length > 0 ? user[0].nationality:'') %>"><br>
+                    <input type="text" name="nationality" id="nationality" value="<%= (user.length > 0 ? user[0].nationality:'') %>" maxlength="20" required><br>
         
                     <label for="email">E-mail</label>
-                    <input type="text" name="email" id="email" value="<%= (user.length > 0 ? user[0].email:'') %>"><br>
+                    <input type="email" name="email" id="email" value="<%= (user.length > 0 ? user[0].email:'') %>" maxlength="100" required><br>
         
                     <label for="phone">Telefone</label>
-                    <input type="text" name="phone" id="phone" value="<%= (user.length > 0 ? user[0].phone:'') %>"><br>
+                    <input type="text" pattern="(\([0-9]{2}\))\s([9]{1})?([0-9]{4})-([0-9]{4})" name="phone" id="phone" value="<%= (user.length > 0 ? user[0].phone:'') %>" required><br>
         
                     <input type="hidden" name="wallet" id="wallet" value="<%= (user.length > 0 ? user[0].wallet:'') %>"><br>
         
@@ -45,7 +45,7 @@
                     <% } else { %>
                         <input type="submit" name="action" value="Atualizar">
                     <% } %>
-                    <input type="submit" name="action" value="Cancelar">
+                    <input type="submit" name="action" value="Cancelar" formnovalidate>
                 </form>
             </main>
             <%- include("../../snippets/footer.ejs"); %>

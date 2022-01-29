@@ -18,7 +18,7 @@ form li {
     margin-left: 20px;
 }
 
-form input[type=text],form input[type=date],form input[type=float],form input[type=password],form input[type=number] form select {
+form input[type=text],form input[type=date],form input[type=float],form input[type=password],form input[type=number], form input[type=email], form select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;

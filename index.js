@@ -187,7 +187,7 @@ app.post("/publish/save/", (req,res) => {
 
     //Manter arquivos como o placeholder padrão para o funcionamento da home page em construção
     game.setImage("placeholder.png");
-    game.setExecutable("placeholder.html");
+    game.setExecutable("placeholder.ejs");
 
     let games_genres = new games_genresDAO();
     let genres = req.body.genres;
@@ -308,7 +308,7 @@ app.get("/acquired/play/", (req,res) => {
     games.setId(req.query.id_game);
 
     games.SearchForId(con, (resultGames) => {
-        res.render("client/acquired/placeholder.ejs", {game:resultGames[0]});
+        res.render("client/acquired/" + resultGames[0].executable, {game:resultGames[0]});
     });
 });
 
@@ -478,11 +478,17 @@ app.get("/admin/purchases/form/", (req,res) => {
 
 app.post("/admin/purchases/save/", (req,res) => {
     let purchase = new purchasesDAO();
-    purchase.setUser(req.body.user);
-    purchase.setGame(req.body.game);
 
-    let result = purchase.Insert(con);
-    res.render("admin/result.ejs", {userLogged:req.session.user});
+    if (req.body.action == "Salvar") {
+        purchase.setUser(req.body.user);
+        purchase.setGame(req.body.game);
+
+        let result = purchase.Insert(con);
+        res.render("admin/result.ejs", {userLogged:req.session.user});
+    }
+    else {
+        res.redirect("../");
+    }
 
     //No sistema, não haverá a possibilidade de atualizar uma compra, somente realizar e cancelar a compra
 });
