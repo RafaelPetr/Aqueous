@@ -19,7 +19,14 @@ module.exports = class gamesDAO {
     }
 
     setTitle = (title) => {
-        this.title = title;
+        switch (true) {
+            case title == '':
+                throw "O campo título é obrigatório.";
+            case title.length > 50:
+                throw "O título não pode possuir mais de 50 caracteres.";
+            default:
+                this.title = title;
+        }
     }
 
     getTitle = () => {
@@ -27,7 +34,16 @@ module.exports = class gamesDAO {
     }
 
     setDeveloper = (developer) => {
-        this.cpf_developer = developer;
+        switch (true) {
+            case developer == '':
+                throw "O campo CPF do desenvolvedor é obrigatório.";
+            case isNaN(developer):
+                throw "O CPF do desenvolver precisa conter apenas valores numéricos";
+            case developer.length != 11:
+                throw "O CPF do desenvolvedor precisa ter 11 caracteres.";
+            default:
+                this.cpf_developer = developer;
+        }
     }
 
     getDeveloper = () => {
@@ -43,7 +59,14 @@ module.exports = class gamesDAO {
     }
 
     setPrice = (price) => {
-        this.price = price;
+        switch (true) {
+            case price == '':
+                throw "O campo preço é obrigatório";
+            case isNaN(price):
+                throw "O preço precisa ser um valor numérico.";
+            default:
+                this.price = price;
+        }
     }
 
     getPrice = () => {
@@ -51,7 +74,14 @@ module.exports = class gamesDAO {
     }
 
     setDescription = (description) => {
-        this.description = description;
+        switch (true) {
+            case description == '':
+                throw "O campo descrição é obrigatório";
+            case description.length > 250:
+                throw "A descrição não pode possuir mais de 250 caracteres.";
+            default:
+                this.description = description;
+        }
     }
 
     getDescription = () => {
@@ -59,7 +89,16 @@ module.exports = class gamesDAO {
     }
 
     setImage = (image) => {
-        this.image = image;
+        let regExp = /^[a-zA-Z0-9]{1,}[.][a-zA-Z0-9]{1,}$/;
+        switch (true) {
+            case image.length > 20:
+                throw "O nome do arquivo da imagem não pode ter mais de 20 caracteres (contando o nome da extensão).";
+            case !regExp.test(image):
+                throw "O nome do arquivo da imagem precisa ser no formato 'nome.extensão'";
+            default:
+                this.image = "placeholder.png"; //Manter arquivo como placeholder para o funcionamento do site (não foi adicionada funcionalidade de upload de arquivos)
+                //this.image = image;
+        }
     }
 
     getImage = () => {
@@ -67,7 +106,16 @@ module.exports = class gamesDAO {
     }
 
     setExecutable = (executable) => {
-        this.executable = executable;
+        let regExp = /^[a-zA-Z0-9]{1,}[.][a-zA-Z0-9]{1,}$/;
+        switch (true) {
+            case executable.length > 20:
+                throw "O nome do arquivo do executável não pode ter mais de 20 caracteres (contando o nome da extensão).";
+            case !regExp.test(executable):
+                throw "O nome do arquivo do executável precisa ser no formato 'nome.extensão'";
+            default:
+                this.executable = "placeholder.ejs"; //Manter arquivo como placeholder para o funcionamento do site (não foi adicionada funcionalidade de upload de arquivos)
+                //this.executable = executable;
+        }
     }
 
     getExecutable = () => {

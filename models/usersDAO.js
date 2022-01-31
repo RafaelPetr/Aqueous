@@ -11,7 +11,18 @@ module.exports = class usersDAO {
     }
 
     setCPF = (cpf) => {
-        this.cpf = cpf;
+        if (cpf != undefined) {
+            switch (true) {
+                case cpf == '':
+                    throw "O campo CPF é obrigatório.";
+                case cpf.length != 11:
+                    throw "O CPF precisa ter 11 caracteres";
+                case isNaN(cpf):
+                    throw "O CPF precisa conter apenas valores numéricos";
+                default:
+                    this.cpf = cpf;   
+            }
+        }
     }
 
     getCPF = () => {
@@ -19,7 +30,14 @@ module.exports = class usersDAO {
     }
 
     setPassword = (password) => {
-        this.password = password;
+        switch (true) {
+            case password == '':
+                throw "O campo senha é obrigatório.";
+            case password.length > 8:
+                throw "A senha não pode conter mais que 8 caracteres";
+            default:
+                this.password = password;
+        }
     }
 
     getPassword = () => {
@@ -27,7 +45,14 @@ module.exports = class usersDAO {
     }
 
     setName = (name) => {
-        this.name = name;
+        switch (true) {
+            case name == '':
+                throw "O campo nome é obrigatório.";
+            case name.length > 40:
+                throw "O nome não pode conter mais que 40 caracteres";
+            default:
+                this.name = name;
+        }
     }
 
     getName = () => {
@@ -35,7 +60,15 @@ module.exports = class usersDAO {
     }
 
     setBirthdate = (birthdate) => {
-        this.birthdate = birthdate;
+        let regExp = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+        switch (true) {
+            case birthdate == '':
+                throw "O campo data de nascimento é obrigatório.";
+            case !regExp.test(birthdate):
+                throw "Escreva o ano no formato AAAA-MM-DD";
+            default:
+                this.birthdate = birthdate;
+        }
     }
 
     getBirthdate = () => {
@@ -43,7 +76,14 @@ module.exports = class usersDAO {
     }
 
     setNationality = (nationality) => {
-        this.nationality = nationality;
+        switch (true) {
+            case nationality == '':
+                throw "O campo nacionalidade é obrigatório.";
+            case nationality.length > 20:
+                throw "A nacionalidade não pode conter mais de 20 caracteres";
+            default:
+                this.nationality = nationality;
+        }
     }
 
     getNationality = () => {
@@ -51,7 +91,17 @@ module.exports = class usersDAO {
     }
 
     setEmail = (email) => {
-        this.email = email;
+        let regExp = /^[.A-Za-z0-9!#$%&'*+\?^_`{|}~-]{1,}@[.A-Za-z0-9!#$%&'*+\?^_`{|}~-]{1,}$/;
+        switch (true) {
+            case email == '':
+                throw "O campo e-mail é obrigatório.";
+            case !regExp.test(email):
+                throw "Escreva o email no formato alguma@coisa";
+            case email.length > 100:
+                throw "O e-mail não pode conter mais de 100 caracteres";
+            default:
+                this.email = email;
+        }
     }
 
     getEmail = () => {
@@ -59,7 +109,15 @@ module.exports = class usersDAO {
     }
 
     setPhone = (phone) => {
-        this.phone = phone;
+        let regExp = /^[(][0-9]{2}[)] 9[0-9]{4}-[0-9]{4}$/;
+        switch (true) {
+            case phone == '':
+                throw "O campo telefone é obrigatório.";
+            case !regExp.test(phone):
+                throw "Escreva o telefone no formato (XX) 9XXXX-XXXX";
+            default:
+                this.phone = phone;
+        }
     }
 
     getPhone = () => {

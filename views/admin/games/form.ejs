@@ -18,19 +18,19 @@
             <input type="text" name="title" id="title" value="<%= (game.length > 0 ? game[0].title:'') %>" maxlength="50" required><br>
 
             <label for="price">Preço</label>
-            <input type="float" name="price" id="price" value="<%= (game.length > 0 ? game[0].price:'') %>" required><br>
+            <input type="number" name="price" id="price" value="<%= (game.length > 0 ? game[0].price:'') %>" required><br>
 
             <label for="description">Descrição</label>
             <input type="text" name="description" id="description" value="<%= (game.length > 0 ? game[0].description:'') %>" maxlength="250" required><br>
 
             <label for="image">Imagem</label>
-            <input type="text" name="image" id="image" value="<%= (game.length > 0 ? game[0].image:'') %>"><br>
+            <input type="text" pattern="(^[a-zA-Z0-9]{1,}[.][a-zA-Z0-9]{1,}$)" title="Formato: nome.extensão" name="image" id="image" value="<%= (game.length > 0 ? game[0].image:'') %>" maxlength="20"><br>
 
             <label for="executable">Executável</label>
-            <input type="text" name="executable" id="executable" value="<%= (game.length > 0 ? game[0].executable:'') %>"><br>
+            <input type="text" pattern="(^[a-zA-Z0-9]{1,}[.][a-zA-Z0-9]{1,}$)" title="Formato: nome.extensão" name="executable" id="executable" value="<%= (game.length > 0 ? game[0].executable:'') %>" maxlength="20"><br>
 
             <label for="cpf_developer">CPF do Desenvolvedor</label>
-            <input type="text" name="cpf_developer" id="cpf_developer" value="<%= (game.length > 0 ? game[0].cpf_developer:'') %>" maxlength="11" required><br>
+            <input type="text" name="cpf_developer" id="cpf_developer" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="<%= (game.length > 0 ? game[0].cpf_developer:'') %>" maxlength="11" minlength="11" required><br>
             
             <span>Gêneros</span><br>
             <ul>

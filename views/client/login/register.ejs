@@ -15,7 +15,7 @@
                     <%- include("../../snippets/formTitle.ejs", {type:"Usuário",title:(user.length > 0 ? user[0].name:undefined)}); %>
                     <% if (user.length <= 0) { %>
                         <label for="cpf">CPF</label>
-                        <input type="number" name="cpf" id="cpf" value="" maxlength="11" required><br>
+                        <input type="text" name="cpf" id="cpf" value="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="11" minlength="11" required><br>
                     <% } else { %>
                         <input type="hidden" name="cpf" id="cpf" value="<%= (user.length > 0 ? user[0].cpf:'') %>"><br>
                     <% } %>
@@ -27,7 +27,7 @@
                     <input type="text" name="name" id="name" value="<%= (user.length > 0 ? user[0].name:'') %>" maxlength="40" required><br>
         
                     <label for="birthdate">Data de Nascimento</label>
-                    <input type="date" name="birthdate" id="birthdate" value="<%= (user.length > 0 ? user[0].birthdate:'') %>" required><br>
+                    <input type="date" name="birthdate" id="birthdate" value="<%= (user.length > 0 ? user[0].birthdate.split('/').reverse().join('-'):'') %>" required><br>
         
                     <label for="nationality">Nacionalidade</label>
                     <input type="text" name="nationality" id="nationality" value="<%= (user.length > 0 ? user[0].nationality:'') %>" maxlength="20" required><br>
@@ -36,7 +36,7 @@
                     <input type="email" name="email" id="email" value="<%= (user.length > 0 ? user[0].email:'') %>" maxlength="100" required><br>
         
                     <label for="phone">Telefone</label>
-                    <input type="text" pattern="(\([0-9]{2}\))\s([9]{1})?([0-9]{4})-([0-9]{4})" name="phone" id="phone" value="<%= (user.length > 0 ? user[0].phone:'') %>" required><br>
+                    <input type="text" pattern="(^[(][0-9]{2}[)] 9[0-9]{4}-[0-9]{4}$)" title="Formato: (XX) 9XXXX-XXXX" name="phone" id="phone" value="<%= (user.length > 0 ? user[0].phone:'') %>" maxlength="15" required><br>
         
                     <input type="hidden" name="wallet" id="wallet" value="<%= (user.length > 0 ? user[0].wallet:'') %>"><br>
         

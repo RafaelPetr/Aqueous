@@ -13,7 +13,14 @@ module.exports = class genresDAO {
     }
 
     setName = (name) => {
-        this.name = name;
+        switch (true) {
+            case name == '':
+                throw "O campo nome é obrigatório.";
+            case name.length > 50:
+                throw "O nome do gênero não pode conter mais de 50 caracteres.";
+            default:
+                this.name = name;
+        }
     }
 
     getName = () => {

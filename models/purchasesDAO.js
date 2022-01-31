@@ -5,7 +5,16 @@ module.exports = class purchasesDAO {
     }
 
     setUser = (user) => {
-        this.user = user;
+        switch (true) {
+            case user == '':
+                throw "O campo CPF do usuário é obrigatório.";
+            case isNaN(user):
+                throw "O CPF do usuário precisa conter apenas valores numéricos";
+            case user.length != 11:
+                throw "O CPF do usuário precisa ter 11 caracteres.";
+            default:
+                this.user = user;
+        }
     }
 
     getUser = () => {
@@ -13,7 +22,16 @@ module.exports = class purchasesDAO {
     }
 
     setGame = (game) => {
-        this.game = game;
+        switch (true) {
+            case game == '':
+                throw "O campo ID do jogo é obrigatório.";
+            case isNaN(game):
+                throw "O ID do jogo precisa conter apenas valores numéricos";
+            case game.length > 11:
+                throw "O ID do jogo não pode ter mais de 11 caracteres.";
+            default:
+                this.game = game;
+        }
     }
     
     getGame = () => {
@@ -33,6 +51,24 @@ module.exports = class purchasesDAO {
         let sql = "SELECT * FROM Purchases WHERE cpf_user = ?";
 
         connection.query(sql, [this.user], (err,result) => {
+            if (err) throw err;
+            return callback(result);
+        })
+    }
+
+    VerifyUser = (connection, callback) => {
+        let sql = "SELECT * FROM Users WHERE cpf = ?";
+
+        connection.query(sql, [this.user], (err,result) => {
+            if (err) throw err;
+            return callback(result);
+        })
+    }
+
+    VerifyGame = (connection, callback) => {
+        let sql = "SELECT * FROM Games WHERE id = ?";
+
+        connection.query(sql, [this.game], (err,result) => {
             if (err) throw err;
             return callback(result);
         })

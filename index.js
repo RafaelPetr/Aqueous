@@ -63,23 +63,29 @@ app.get("/login/", (req,res) => {
 });
 
 app.post("/login/", (req,res) => {
-    let user = new usersDAO();
-    user.setCPF(req.body.cpf);
-    user.setPassword(req.body.password);
+    try {
+        if (req.body.action == "Voltar") {
+            res.redirect("../");
+        }
 
-    if (req.body.action == "Entrar") {
-        user.Login(con, (result) => {
-            if (result.length == 1) {
-                req.session.user = result[0];
-                res.redirect("/");
-            }
-            else {
-                res.render("client/login/login.ejs", {message:"O CPF ou senha são inválidos"});
-            }
-        })
+        let user = new usersDAO();
+        user.setCPF(req.body.cpf);
+        user.setPassword(req.body.password);
+    
+        if (req.body.action == "Entrar") {
+            user.Login(con, (result) => {
+                if (result.length == 1) {
+                    req.session.user = result[0];
+                    res.redirect("/");
+                }
+                else {
+                    res.render("client/login/login.ejs", {message:"O CPF ou senha são inválidos"});
+                }
+            })
+        }
     }
-    else {
-        res.redirect("../");
+    catch (e) {
+        res.render("error.ejs",{error:e,userLogged:req.session.user});
     }
 });
 
@@ -93,39 +99,45 @@ app.get("/login/register/", (req,res) => {
 });
 
 app.post("/login/register/", (req,res) => {
-    let user = new usersDAO();
-    user.setCPF(req.body.cpf);
-    user.setPassword(req.body.password);
-    user.setName(req.body.name);
-    user.setBirthdate(req.body.birthdate);
-    user.setNationality(req.body.nationality);
-    user.setEmail(req.body.email);
-    user.setPhone(req.body.phone);
+    try {
+        if (req.body.action == "Cancelar") {
+            res.redirect("../");
+        }
+        
+        let user = new usersDAO();
+        user.setCPF(req.body.cpf);
+        user.setPassword(req.body.password);
+        user.setName(req.body.name);
+        user.setBirthdate(req.body.birthdate);
+        user.setNationality(req.body.nationality);
+        user.setEmail(req.body.email);
+        user.setPhone(req.body.phone);
 
-    if (req.body.action == "Registrar") {
-        user.setWallet(100);
-        let result = user.Insert(con);
+        if (req.body.action == "Registrar") {
+            user.setWallet(100);
+            let result = user.Insert(con);
 
-        user.Login(con, (result) => {
-            if (result.length == 1) {
-                req.session.user = result[0];
-                res.redirect("/");
-            }
-        });
+            user.Login(con, (result) => {
+                if (result.length == 1) {
+                    req.session.user = result[0];
+                    res.redirect("/");
+                }
+            });
+        }
+        else if (req.body.action == "Atualizar") {
+            user.setWallet(req.body.wallet);
+            let result = user.Update(con);
+
+            user.Login(con, (result) => {
+                if (result.length == 1) {
+                    req.session.user = result[0];
+                    res.redirect("/");
+                }
+            });
+        }
     }
-    else if (req.body.action == "Atualizar") {
-        user.setWallet(req.body.wallet);
-        let result = user.Update(con);
-
-        user.Login(con, (result) => {
-            if (result.length == 1) {
-                req.session.user = result[0];
-                res.redirect("/");
-            }
-        });
-    }
-    else {
-        res.redirect("../");
+    catch (e) {
+        res.render("error.ejs",{error:e,userLogged:req.session.user});
     }
 });
 
@@ -177,59 +189,66 @@ app.get("/publish/form/", (req,res) => {
 });
 
 app.post("/publish/save/", (req,res) => {
-    let game = new gamesDAO();
-    game.setId(req.body.id);
-    game.setTitle(req.body.title);
-    game.setPublication(new Date());
-    game.setPrice(req.body.price);
-    game.setDescription(req.body.description);
-    game.setDeveloper(req.body.cpf_developer);
-
-    //Manter arquivos como o placeholder padrão para o funcionamento da home page em construção
-    game.setImage("placeholder.png");
-    game.setExecutable("placeholder.ejs");
-
-    let games_genres = new games_genresDAO();
-    let genres = req.body.genres;
-
-    if (genres == undefined) {
-        genres = [];
-    }
-
-    if (req.body.action == "Salvar") {
-        if (game.getId() <= 0) {
-            let user = new usersDAO();
-            user.setCPF(req.body.cpf_developer);
-            user.UpdateWallet(con,10);
-
-            req.session.user.wallet = req.session.user.wallet - 10;
-
-            let resultGame = game.Insert(con);
-
-            //Relaciona jogo com a tabela de gêneros
-            genres.forEach(genre => {
-                games_genres.setId_Genre(genre);
-                let resultGames_Genres = games_genres.Insert(con);
-            });
-
+    try {
+        if (req.body.action == "Cancelar") {
             res.redirect("../");
+        }
+
+        let game = new gamesDAO();
+        game.setId(req.body.id);
+        game.setTitle(req.body.title);
+        game.setPublication(new Date());
+        game.setPrice(req.body.price);
+        game.setDescription(req.body.description);
+        game.setDeveloper(req.body.cpf_developer);
+        game.setImage(req.body.image);
+        game.setExecutable(req.body.executable);
+
+        let games_genres = new games_genresDAO();
+        let genres = req.body.genres;
+
+        if (genres == undefined) {
+            genres = [];
+        }
+
+        if (req.body.action == "Salvar") {
+            if (game.getId() <= 0) {
+                let user = new usersDAO();
+                user.setCPF(req.body.cpf_developer);
+                user.UpdateWallet(con,10);
+
+                req.session.user.wallet = req.session.user.wallet - 10;
+
+                let resultGame = game.Insert(con);
+
+                //Relaciona jogo com a tabela de gêneros
+                genres.forEach(genre => {
+                    games_genres.setId_Genre(genre);
+                    let resultGames_Genres = games_genres.Insert(con);
+                });
+
+                res.redirect("../");
+            }
+            else {
+                let result = game.Update(con);
+
+                //Relaciona jogo com a tabela de gêneros
+                games_genres.setId_Game(game.getId());
+                games_genres.Delete(con);
+                genres.forEach(genre => {
+                    games_genres.setId_Genre(genre);
+                    let resultGames_Genres = games_genres.Insert(con);
+                });
+
+                res.redirect("../");
+            }
         }
         else {
-            let result = game.Update(con);
-
-            //Relaciona jogo com a tabela de gêneros
-            games_genres.setId_Game(game.getId());
-            games_genres.Delete(con);
-            genres.forEach(genre => {
-                games_genres.setId_Genre(genre);
-                let resultGames_Genres = games_genres.Insert(con);
-            });
-
             res.redirect("../");
         }
     }
-    else {
-        res.redirect("../");
+    catch (e) {
+        res.render("error.ejs",{error:e,userLogged:req.session.user});
     }
 });
 
@@ -344,27 +363,32 @@ app.get("/admin/users/form/", (req,res) => {
 });
 
 app.post("/admin/users/save/", (req,res) => {
-    let user = new usersDAO();
-    user.setCPF(req.body.cpf);
-    user.setPassword(req.body.password);
-    user.setName(req.body.name);
-    user.setBirthdate(req.body.birthdate);
-    user.setNationality(req.body.nationality);
-    user.setEmail(req.body.email);
-    user.setPhone(req.body.phone);
+    try {
+        if (req.body.action == "Cancelar") {
+            res.redirect("../");
+        }
+        let user = new usersDAO();
+        user.setCPF(req.body.cpf);
+        user.setPassword(req.body.password);
+        user.setName(req.body.name);
+        user.setBirthdate(req.body.birthdate);
+        user.setNationality(req.body.nationality);
+        user.setEmail(req.body.email);
+        user.setPhone(req.body.phone);
 
-    if (req.body.action == "Inserir") {
-        user.setWallet(100);
-        let result = user.Insert(con);
-        res.render("admin/result.ejs",{userLogged:req.session.user});
+        if (req.body.action == "Inserir") {
+            user.setWallet(100);
+            let result = user.Insert(con);
+            res.render("admin/result.ejs",{userLogged:req.session.user});
+        }
+        else if (req.body.action == "Atualizar") {
+            user.setWallet(req.body.wallet);
+            let result = user.Update(con);
+            res.render("admin/result.ejs",{userLogged:req.session.user});
+        }
     }
-    else if (req.body.action == "Atualizar") {
-        user.setWallet(req.body.wallet);
-        let result = user.Update(con);
-        res.render("admin/result.ejs",{userLogged:req.session.user});
-    }
-    else {
-        res.redirect("../");
+    catch (e) {
+        res.render("error.ejs",{error:e,userLogged:req.session.user});
     }
 });
 
@@ -404,53 +428,56 @@ app.get("/admin/games/form/", (req,res) => {
 });
 
 app.post("/admin/games/save/", (req,res) => {
-    let game = new gamesDAO();
-    game.setId(req.body.id);
-    game.setTitle(req.body.title);
-    game.setPublication(new Date());
-    game.setPrice(req.body.price);
-    game.setDescription(req.body.description);
-    game.setDeveloper(req.body.cpf_developer);
+    try {
+        let game = new gamesDAO();
+        game.setId(req.body.id);
+        game.setTitle(req.body.title);
+        game.setPublication(new Date());
+        game.setPrice(req.body.price);
+        game.setDescription(req.body.description);
+        game.setDeveloper(req.body.cpf_developer);
+        game.setImage(req.body.image);
+        game.setExecutable(req.body.executable);
 
-    //Manter arquivos como o placeholder padrão para o funcionamento da home page em construção
-    game.setImage("placeholder.png");
-    game.setExecutable("placeholder.ejs");
+        let games_genres = new games_genresDAO();
+        let genres = req.body.genres;
 
-    let games_genres = new games_genresDAO();
-    let genres = req.body.genres;
+        if (genres == undefined) {
+            genres = [];
+        }
 
-    if (genres == undefined) {
-        genres = [];
-    }
+        if (req.body.action == "Salvar") {
+            if (game.getId() <= 0) {
+                let resultGame = game.Insert(con);
 
-    if (req.body.action == "Salvar") {
-        if (game.getId() <= 0) {
-            let resultGame = game.Insert(con);
+                //Relaciona jogo com a tabela de gêneros
+                genres.forEach(genre => {
+                    games_genres.setId_Genre(genre);
+                    let resultGames_Genres = games_genres.Insert(con);
+                });
 
-            //Relaciona jogo com a tabela de gêneros
-            genres.forEach(genre => {
-                games_genres.setId_Genre(genre);
-                let resultGames_Genres = games_genres.Insert(con);
-            });
+                res.render("admin/result.ejs", {userLogged:req.session.user});
+            }
+            else {
+                let result = game.Update(con);
 
-            res.render("admin/result.ejs", {userLogged:req.session.user});
+                //Relaciona jogo com a tabela de gêneros
+                games_genres.setId_Game(game.getId());
+                games_genres.Delete(con);
+                genres.forEach(genre => {
+                    games_genres.setId_Genre(genre);
+                    let resultGames_Genres = games_genres.Insert(con);
+                });
+
+                res.render("admin/result.ejs", {userLogged:req.session.user});
+            }
         }
         else {
-            let result = game.Update(con);
-
-            //Relaciona jogo com a tabela de gêneros
-            games_genres.setId_Game(game.getId());
-            games_genres.Delete(con);
-            genres.forEach(genre => {
-                games_genres.setId_Genre(genre);
-                let resultGames_Genres = games_genres.Insert(con);
-            });
-
-            res.render("admin/result.ejs", {userLogged:req.session.user});
+            res.redirect("../");
         }
     }
-    else {
-        res.redirect("../");
+    catch (e) {
+        res.render("error.ejs",{error:e,userLogged:req.session.user});
     }
 });
 
@@ -477,17 +504,38 @@ app.get("/admin/purchases/form/", (req,res) => {
 });
 
 app.post("/admin/purchases/save/", (req,res) => {
-    let purchase = new purchasesDAO();
+    try {
+        let purchase = new purchasesDAO();
 
-    if (req.body.action == "Salvar") {
-        purchase.setUser(req.body.user);
-        purchase.setGame(req.body.game);
-
-        let result = purchase.Insert(con);
-        res.render("admin/result.ejs", {userLogged:req.session.user});
+        if (req.body.action == "Salvar") {
+            purchase.setUser(req.body.user);
+            purchase.setGame(req.body.game);
+                purchase.VerifyUser(con, (resultUser) => {
+                    purchase.VerifyGame(con, (resultGame) => {
+                    try {
+                        if (resultUser.length < 1) {
+                            throw "Usuário não encontrado";
+                        }
+                        else if (resultGame.length < 1) {
+                            throw "Jogo não encontrado.";
+                        }
+                        else {
+                            let result = purchase.Insert(con);
+                            res.render("admin/result.ejs", {userLogged:req.session.user});
+                        }
+                    }
+                    catch (e) {
+                        res.render("error.ejs",{error:e,userLogged:req.session.user});
+                    }
+                });
+            });
+        }
+        else {
+            res.redirect("../");
+        }
     }
-    else {
-        res.redirect("../");
+    catch (e) {
+        res.render("error.ejs",{error:e,userLogged:req.session.user});
     }
 
     //No sistema, não haverá a possibilidade de atualizar uma compra, somente realizar e cancelar a compra
@@ -522,22 +570,27 @@ app.get("/admin/genres/form/", (req,res) => {
 });
 
 app.post("/admin/genres/save/", (req,res) => {
-    let genre = new genresDAO();
-    genre.setId(req.body.id);
-    genre.setName(req.body.name);
+    try {
+        let genre = new genresDAO();
+        genre.setId(req.body.id);
+        genre.setName(req.body.name);
 
-    if (req.body.action == "Salvar") {
-        if (genre.getId() <= 0) {
-            let result = genre.Insert(con);
-            res.render("admin/result.ejs", {userLogged:req.session.user});
+        if (req.body.action == "Salvar") {
+            if (genre.getId() <= 0) {
+                let result = genre.Insert(con);
+                res.render("admin/result.ejs", {userLogged:req.session.user});
+            }
+            else {
+                let result = genre.Update(con);
+                res.render("admin/result.ejs", {userLogged:req.session.user});
+            }
         }
         else {
-            let result = genre.Update(con);
-            res.render("admin/result.ejs", {userLogged:req.session.user});
+            res.redirect("../");
         }
     }
-    else {
-        res.redirect("../");
+    catch (e) {
+        res.render("error.ejs",{error:e,userLogged:req.session.user});
     }
 });
 

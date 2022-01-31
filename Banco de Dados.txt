@@ -9,7 +9,7 @@ CREATE TABLE Users (
 	birthdate DATE NOT NULL,
 	nationality VARCHAR(20) NOT NULL,
 	email VARCHAR(100) NOT NULL,
-	phone VARCHAR(20) NOT NULL,
+	phone VARCHAR(15) NOT NULL,
 	wallet DECIMAL(15,2) NOT NULL,
 	PRIMARY KEY (cpf)
 );
@@ -49,7 +49,7 @@ CREATE TABLE Purchases (
 	FOREIGN KEY (id_game) REFERENCES Games(id) ON DELETE CASCADE
 );
 
-INSERT INTO Users (cpf,password,name,birthdate,nationality,email,phone,wallet) VALUES ("0","0","Usuário Teste","2002/12/01","Brasileiro","teste@gmail.com","0",100.00);
+INSERT INTO Users (cpf,password,name,birthdate,nationality,email,phone,wallet) VALUES ("00000000000","0","Usuário Teste","2002/12/01","Brasileiro","teste@gmail.com","(00) 90000-0000",100.00);
 
 INSERT INTO Genres (name) VALUES ('Aventura');
 INSERT INTO Genres (name) VALUES ('Ação');
@@ -58,9 +58,9 @@ INSERT INTO Genres (name) VALUES ('RPG');
 INSERT INTO Genres (name) VALUES ('Puzzle');
 INSERT INTO Genres (name) VALUES ('FPS');
 
-INSERT INTO Games (title, publication, price, description, image, executable, cpf_developer) VALUES ("Overwatch",NOW(),99.99,"Overwatch é um jogo eletrônico multijogador de tiro em primeira pessoa.","placeholder.png","placeholder.ejs","0");
-INSERT INTO Games (title, publication, price, description, image, executable, cpf_developer) VALUES ("Resident Evil 4",NOW(),199.99,"Resident Evil 4, conhecido no Japão como Biohazard 4, é um jogo eletrônico de survival horror e tiro em terceira pessoa.","placeholder.png","placeholder.ejs","0");
-INSERT INTO Games (title, publication, price, description, image, executable, cpf_developer) VALUES ("Cut the Rope",NOW(),4.99,"Série russa de videogames com quebra-cabeças baseados na física.","placeholder.png","placeholder.ejs","0");
+INSERT INTO Games (title, publication, price, description, image, executable, cpf_developer) VALUES ("Overwatch",NOW(),99.99,"Overwatch é um jogo eletrônico multijogador de tiro em primeira pessoa.","placeholder.png","placeholder.ejs","00000000000");
+INSERT INTO Games (title, publication, price, description, image, executable, cpf_developer) VALUES ("Resident Evil 4",NOW(),199.99,"Resident Evil 4, conhecido no Japão como Biohazard 4, é um jogo eletrônico de survival horror e tiro em terceira pessoa.","placeholder.png","placeholder.ejs","00000000000");
+INSERT INTO Games (title, publication, price, description, image, executable, cpf_developer) VALUES ("Cut the Rope",NOW(),4.99,"Série russa de videogames com quebra-cabeças baseados na física.","placeholder.png","placeholder.ejs","00000000000");
 
 INSERT INTO Games_Genres (id_game,id_genre) VALUES (1,2);
 INSERT INTO Games_Genres (id_game,id_genre) VALUES (1,6);
