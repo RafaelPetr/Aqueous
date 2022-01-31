@@ -66,6 +66,7 @@ app.post("/login/", (req,res) => {
     try {
         if (req.body.action == "Voltar") {
             res.redirect("../");
+            return;
         }
 
         let user = new usersDAO();
@@ -102,6 +103,7 @@ app.post("/login/register/", (req,res) => {
     try {
         if (req.body.action == "Cancelar") {
             res.redirect("../");
+            return;
         }
         
         let user = new usersDAO();
@@ -192,6 +194,7 @@ app.post("/publish/save/", (req,res) => {
     try {
         if (req.body.action == "Cancelar") {
             res.redirect("../");
+            return;
         }
 
         let game = new gamesDAO();
@@ -242,9 +245,6 @@ app.post("/publish/save/", (req,res) => {
 
                 res.redirect("../");
             }
-        }
-        else {
-            res.redirect("../");
         }
     }
     catch (e) {
@@ -366,6 +366,7 @@ app.post("/admin/users/save/", (req,res) => {
     try {
         if (req.body.action == "Cancelar") {
             res.redirect("../");
+            return;
         }
         let user = new usersDAO();
         user.setCPF(req.body.cpf);
@@ -429,6 +430,10 @@ app.get("/admin/games/form/", (req,res) => {
 
 app.post("/admin/games/save/", (req,res) => {
     try {
+        if (req.body.action == "Cancelar") {
+            res.redirect("../");
+            return;
+        }
         let game = new gamesDAO();
         game.setId(req.body.id);
         game.setTitle(req.body.title);
@@ -471,9 +476,6 @@ app.post("/admin/games/save/", (req,res) => {
 
                 res.render("admin/result.ejs", {userLogged:req.session.user});
             }
-        }
-        else {
-            res.redirect("../");
         }
     }
     catch (e) {
@@ -571,6 +573,11 @@ app.get("/admin/genres/form/", (req,res) => {
 
 app.post("/admin/genres/save/", (req,res) => {
     try {
+        if (req.body.action == "Cancelar") {
+            res.redirect("../");
+            return;
+        }
+
         let genre = new genresDAO();
         genre.setId(req.body.id);
         genre.setName(req.body.name);
@@ -584,9 +591,6 @@ app.post("/admin/genres/save/", (req,res) => {
                 let result = genre.Update(con);
                 res.render("admin/result.ejs", {userLogged:req.session.user});
             }
-        }
-        else {
-            res.redirect("../");
         }
     }
     catch (e) {
